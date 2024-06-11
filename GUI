@@ -200,7 +200,39 @@
                 end
             end
         end
-        
+--
+local Player = game.Players.LocalPlayer
+local inputService = game:GetService("UserInputService")
+
+function AddDrag(frame1, frame2)
+    frame1.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.Touch then
+            local startPos = input.Position
+            local initialPos = frame2.Position
+            local offset = startPos - frame2.AbsolutePosition
+    
+            local function onTouchMoved(moveInput)
+                if input == moveInput or input.UserInputState == Enum.UserInputState.End then
+                    return
+                end
+    
+                local newPos = moveInput.Position - offset
+                frame2.Position = UDim2.new(0, newPos.X, 0, newPos.Y)
+            end
+    
+            local function onTouchEnded(endedInput)
+                if input == endedInput then
+                    inputService.InputChanged:Disconnect(onTouchMoved)
+                    inputService.InputEnded:Disconnect(onTouchEnded)
+                end
+            end
+    
+            inputService.InputChanged:Connect(onTouchMoved)
+            inputService.InputEnded:Connect(onTouchEnded)
+        end
+    end)
+end
+--
         local Player = game.Players.LocalPlayer
         local Mouse = Player:GetMouse()
         function AddDrag(frame1,frame2)
