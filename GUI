@@ -1189,65 +1189,7 @@
             Frame_2.BorderSizePixel = 0
             Frame_2.Position = UDim2.new(0.303000003, 0, 0.800000012, 0)
             Frame_2.Size = UDim2.new(0, 57, 0, 1)
---
-local gui = script.Parent  -- Reference to the DraggableGUI
-local dragHandle = gui:WaitForChild("DragHandle")  -- Reference to the part used for dragging
-local inputService = game:GetService("UserInputService")
 
-local isDragging = false
-local dragStartPos = nil
-local initialPos = gui.Position
-
--- Function to update the GUI position during dragging
-local function updateDrag(delta)
-    gui.Position = UDim2.new(initialPos.X.Scale, initialPos.X.Offset + delta.X, initialPos.Y.Scale, initialPos.Y.Offset + delta.Y)
-end
-
--- Function to handle touch input
-local function onTouchBegan(input)
-    if input.UserInputType == Enum.UserInputType.Touch then
-        isDragging = true
-        dragStartPos = input.Position - gui.Position
-    end
-end
-
-local function onTouchMoved(input)
-    if isDragging then
-        local delta = input.Position - dragStartPos
-        updateDrag(delta)
-    end
-end
-
-local function onTouchEnded(input)
-    if input.UserInputType == Enum.UserInputType.Touch then
-        isDragging = false
-        dragStartPos = nil
-    end
-end
-
--- Connect input events
-inputService.InputBegan:Connect(onTouchBegan)
-inputService.InputChanged:Connect(onTouchMoved)
-inputService.InputEnded:Connect(onTouchEnded)
-
--- Function to enable dragging
-local function AddDrag(frame1, frame2)
-    frame1.InputBegan:Connect(function(inp)
-        if inp.UserInputType == Enum.UserInputType.MouseButton1 then
-            local inpPos = inp.Position
-            repeat
-                game:GetService("RunService").RenderStepped:Wait()
-                frame2:TweenPosition(UDim2.new(0, Mouse.X - frame1.AbsoluteSize.X / 2, 0, Mouse.Y - frame1.AbsoluteSize.Y + 15), 'Out', 'Linear', 0.08, true)
-            until inp.UserInputState == Enum.UserInputState.End
-        end
-    end)
-end
-
--- Call AddDrag function
-local frame1 = gui:WaitForChild("DragHandle") -- Assuming "DragHandle" is the part used for dragging
-local frame2 = gui -- Assuming "gui" is the frame to update position
-AddDrag(frame1, frame2)
---
             Update(25)
         end
 
