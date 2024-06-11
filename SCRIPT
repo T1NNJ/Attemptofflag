@@ -698,6 +698,30 @@ if Input.KeyCode == Enum.KeyCode.Q then
 game:GetService("VirtualInputManager"):SendKeyEvent(true,Enum.KeyCode.Backspace,false,game)
 end
 end)
+--
+-- Crear un ScreenGui para contener el botón
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- Crear el botón
+local button = Instance.new("TextButton")
+button.Name = "F6Button"
+button.Text = "Presionar F6"
+button.Size = UDim2.new(0, 100, 0, 50)
+button.Position = UDim2.new(1, -120, 0, 20)  -- Esquina superior derecha
+button.AnchorPoint = Vector2.new(1, 0)       -- Anclar a la esquina superior derecha
+button.Parent = screenGui
+
+-- Función para presionar la tecla F6 al hacer clic en el botón
+local function onPress()
+    -- Simular la pulsación de la tecla F6
+    game:GetService("UserInputService"):SendKeyEvent(true, Enum.KeyCode.F6, false)
+    game:GetService("UserInputService"):SendKeyEvent(false, Enum.KeyCode.F6, false)
+end
+
+-- Conectar la función al evento de clic del botón
+button.MouseButton1Click:Connect(onPress)
+--
 
 game.StarterGui:SetCore("SendNotification", {
     Title = "Loaded!";
