@@ -209,7 +209,7 @@ Main.Name = "Main"
 Main.Size = UDim2.new(0, 200, 0, 200)
 Main.Position = UDim2.new(0.5, -100, 0.5, -100)
 Main.BackgroundColor3 = Color3.new(1, 1, 1)
-Main.Image = "rbxassetid://123456789"  -- Replace with your image asset ID
+Main.Image = "rbxassetid://4996891970"  -- Replace with your image asset ID
 
 -- Create the part used for dragging
 local DragHandle = Instance.new("Frame")
