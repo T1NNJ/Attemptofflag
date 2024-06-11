@@ -40,52 +40,6 @@
     		visible = not visible
     	end
     end)
---
-local UserInputService = game:GetService("UserInputService")
-
--- Reference to the GUI frame
-local guiFrame = script.Parent
-
--- Variable to track if the GUI is being dragged
-local isDragging = false
-
--- Variable to store the initial position of the GUI when dragging starts
-local initialPosition = nil
-
--- Function to handle when the touch input begins on the GUI
-local function onTouchBegan(touch)
-    isDragging = true
-    initialPosition = guiFrame.Position
-end
-
--- Function to handle when the touch input ends
-local function onTouchEnded(touch)
-    isDragging = false
-    initialPosition = nil
-end
-
--- Function to handle touch movement
-local function onTouchMoved(touch)
-    if isDragging and initialPosition then
-        local delta = touch.Position - touch.StartPosition
-        guiFrame.Position = UDim2.new(initialPosition.X.Scale, initialPosition.X.Offset + delta.X, initialPosition.Y.Scale, initialPosition.Y.Offset + delta.Y)
-    end
-end
-
--- Connect touch events
-UserInputService.TouchStarted:Connect(function(touch, gameProcessed)
-    onTouchBegan(touch)
-end)
-
-UserInputService.TouchEnded:Connect(function(touch, gameProcessed)
-    onTouchEnded(touch)
-end)
-
-UserInputService.TouchMoved:Connect(function(touch, gameProcessed)
-    onTouchMoved(touch)
-end)
---
-
     function Lib:CreateWindow(Name)
         local Window = {}
 
