@@ -120,7 +120,7 @@
         Title_2.Position = UDim2.new(0, 5, 0, 0)
         Title_2.Size = UDim2.new(1, -5, 1, 0)
         Title_2.ZIndex = 2
-        Title_2.Font = Enum.Font.Jura--aa
+        Title_2.Font = Enum.Font.Arial--aa
         Title_2.Text = Name
         Title_2.TextColor3 = Color3.fromRGB(255, 255, 255)
         Title_2.TextSize = 15.000
@@ -138,7 +138,7 @@
         Minimize.Selectable = false
         Minimize.Size = UDim2.new(0, 25, 0, 25)
         Minimize.ZIndex = 2
-        Minimize.Font = Enum.Font.Jura
+        Minimize.Font = Enum.Font.Arial
         Minimize.Text = "-"
         Minimize.TextColor3 = Color3.fromRGB(255, 255, 255)
         Minimize.TextSize = 12.000
