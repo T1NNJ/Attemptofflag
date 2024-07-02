@@ -111,7 +111,7 @@ end
 local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/T1NNJ/Attemptofflag/main/GUI", true))()
 local Table = {}
 
-local window = Lib:CreateWindow("chas lit lol")
+local window = Lib:CreateWindow("LIT A CHAOS LOL")
 
 window:Section(" Main Functions")
 --Fake delay
