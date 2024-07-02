@@ -1,6 +1,6 @@
 local UserInputService = game:GetService("UserInputService")
 local Heartbeat = game:GetService("RunService").Heartbeat
-local walkSpeed = 16
+local walkSpeed = 15
 local plrs = game:GetService'Players'
 local Heartbeat = game:GetService("RunService").Heartbeat
 local dupping = false
@@ -111,9 +111,9 @@ end
 local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/T1NNJ/Attemptofflag/main/GUI", true))()
 local Table = {}
 
-local window = Lib:CreateWindow("CHAOS DEFINITELY")
+local window = Lib:CreateWindow("chas lit lol")
 
-window:Section("Fun Functions")
+window:Section(" Main Functions")
 --Fake delay
 plr:GetMouse().KeyDown:Connect(function(key)
     if key == 'r' then
@@ -455,7 +455,7 @@ game.StarterGui:SetCore("SendNotification", {
     callback = bindableFunction;
 })
 
-window:Section("Target List")
+window:Section(" Target List")
 
 wait(.1)
 
@@ -592,6 +592,7 @@ game:GetService("VirtualInputManager"):SendKeyEvent(true,Enum.KeyCode.KeypadMinu
 
 end)
 
+
 local KillingNear = false
 window:Toggle("Kill Everyone",{location = Table, flag = "enable"},function()
     if KillingNear then
@@ -624,10 +625,6 @@ window:Toggle("Kill Everyone",{location = Table, flag = "enable"},function()
     end
 end)
 
-window:Button("Kill Everyone (Void, Perm)",function()
-loadstring(game:HttpGet("https://scriptblox.com/raw/CHAOS-Kill-Aura-13562"))()
-end)
-
 window:Button("God Mode (Void)",function()
 game:GetService("Players").LocalPlayer.Character.PickupRemote:FireServer()
 wait()
@@ -636,19 +633,24 @@ wait()
 game.Players.LocalPlayer.Character["Humanoid"]:Destroy()
 end)
 
-window:Dropdown("AntiVoid Pencil",{location = Table,flag = "User",search = true --[[AddsSearchBar]], list = {"1","2","3","4","5","6","7","8","9","0"} --[[Wont work when PlayerList = true]], PlayerList = true --[[ Turns the list into the players in the server ]]},function()
-Workspace:FindFirstChild(Table["User"]).Pencil:FindFirstChild("Blade"):Destroy()
-wait()
-Workspace:FindFirstChild(Table["User"]).Pencil:FindFirstChild("Handle"):Destroy()
-wait()
-Workspace:FindFirstChild(Table["User"]).Pencil:FindFirstChild("Meshes/wooden pencil_Cylinder.002"):Destroy()
-wait() 
-Workspace:FindFirstChild(Table["User"]).Pencil:FindFirstChild("Meshes/wooden pencil_Cylinder.003"):Destroy() 
-wait() 
-Workspace:FindFirstChild(Table["User"]).Pencil:FindFirstChild("Meshes/wooden pencil_Cylinder.004"):Destroy()
+window:Button("Kill Everyone (Void, Perm)",function()
+loadstring(game:HttpGet("https://scriptblox.com/raw/CHAOS-Kill-Aura-13562"))()
 end)
 
-window:Dropdown("TP Pencil",{location = Table,flag = "User2",search = true --[[AddsSearchBar]], list = {"1","2","3","4","5","6","7","8","9","0"} --[[Wont work when PlayerList = true]], PlayerList = true --[[ Turns the list into the players in the server ]]},function()
+window:Button("AntiVoid Pencil",function()
+local player = game.Players.LocalPlayer
+local Blade = game.Workspace[player.Name].Pencil:FindFirstChild("Blade"):Destroy()
+wait()
+local Hadle = game.Workspace[player.Name].Pencil:FindFirstChild("Handle"):Destroy()
+wait()
+local Mesh1 = game.Workspace[player.Name].Pencil:FindFirstChild("Meshes/wooden pencil_Cylinder.002"):Destroy()
+wait() 
+local Mesh2 = game.Workspace[player.Name].Pencil:FindFirstChild("Meshes/wooden pencil_Cylinder.003"):Destroy()
+wait()
+local Mesh3 = game.Workspace[player.Name].Pencil:FindFirstChild("Meshes/wooden pencil_Cylinder.003"):Destroy()
+end)
+
+window:Button("Move Pencil With Mouse",function()
 local UIS = game:GetService("UserInputService")
 
 local Player = game.Players.LocalPlayer
@@ -656,7 +658,8 @@ local Mouse = Player:GetMouse()
 
 
 function GetCharacter()
-   return Workspace:FindFirstChild(Table["User2"]).Pencil
+local Player = game.Players.LocalPlayer
+local Move = game.Workspace[player.Name].Pencil
 end
 
 function Teleport(pos)
@@ -674,13 +677,98 @@ UIS.InputBegan:Connect(function(input)
 end)
 end)
 
---a
+window:Section(" View Players")
+
+window:Dropdown("Select a player!",{location = Table,flag = "TXT",search = true --[[AddsSearchBar]], list = {"1","2","3","4","5","6","7","8","9","0"} --[[Wont work when PlayerList = true]], PlayerList = true --[[ Turns the list into the players in the server ]]},function()
+local viewing = nil
+local viewDiedConnection = nil
+local viewChangedConnection = nil
+
+-- Función para detener la cámara libre
+function StopFreecam()
+    -- Aquí va la lógica para detener la cámara libre, si es necesario
+end
+
+-- Función para obtener jugadores
+function getPlayer(playerName, speaker)
+    -- Aquí debes implementar la lógica para obtener el jugador basado en playerName o speaker
+    -- Por ejemplo, si playerName es el nombre del jugador, puedes buscarlo en el juego.
+    -- Si speaker es un jugador, puedes devolver una lista con ese jugador.
+    return {playerName}  -- Ejemplo simple: devolvemos un array con un solo jugador para este ejemplo
+end
+
+-- Función principal para cambiar la vista de la cámara
+function ChangeCameraView(playerName, speaker)
+    StopFreecam()  -- Detenemos la cámara libre si está activa
+    
+    local players = getPlayer(playerName, speaker)
+    
+    for i, v in pairs(players) do
+        -- Desconectar eventos anteriores si existen
+        if viewDiedConnection then
+            viewDiedConnection:Disconnect()
+        end
+        if viewChangedConnection then
+            viewChangedConnection:Disconnect()
+        end
+        
+        local player = game.Players[v]
+        
+        if player then
+            viewing = player
+            workspace.CurrentCamera.CameraSubject = player.Character
+            
+            -- Función para manejar cuando el personaje del jugador muere
+            local function onCharacterDied()
+                repeat wait() until player.Character and player.Character.Parent and player.Character:FindFirstChild("HumanoidRootPart")
+                workspace.CurrentCamera.CameraSubject = player.Character
+            end
+            
+            -- Conectar al evento Died del Humanoid del jugador
+            viewDiedConnection = player.Character:FindFirstChildOfClass("Humanoid").Died:Connect(onCharacterDied)
+        else
+            warn("El jugador " .. v .. " no está en el juego o no se encontró.")
+        end
+    end
+end
+
+-- Ejemplo de uso:
+ChangeCameraView(Table["TXT"], game.Players.LocalPlayer)
+end) 
+
+window:Button("Check for a pencil",function()
+local toolName = "Pencil"
+local synx = "lapiz"
+
+local function checkTools()
+    for _, player in pairs(game.Players:GetPlayers()) do
+        local backpack = player.Backpack
+        if backpack then
+            local tool = backpack:FindFirstChild(toolName)
+            if tool then
+                game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", {
+                    Text = player.Name .. " tiene equipado un " .. synx
+                })
+            end
+        end
+    end
+end
+
+-- Revisa los equipos cada cierto tiempo
+while true do
+    checkTools()
+    -- Espera un tiempo antes de volver a revisar (puedes ajustar este valor)
+    wait(6)
+end
+end)
 
 local Mouse = game.Players.LocalPlayer:GetMouse()
 game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
 if IsTyping then return end
 if Input.KeyCode == Enum.KeyCode.F1 then
-game.Workspace.HelloJesus009.Humanoid.Health = 0
+local player = game.Players.LocalPlayer  -- Obtener el jugador local
+local humanoid = game.Workspace[player.Name].Humanoid  -- Obtener el Humanoid del jugador local
+humanoid.Health = 0  -- Establecer la salud del Humanoid a 0
 end
 end)
 
