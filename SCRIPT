@@ -697,6 +697,17 @@ function getPlayer(playerName, speaker)
     return {playerName}  -- Ejemplo simple: devolvemos un array con un solo jugador para este ejemplo
 end
 
+-- Función para manejar cuando el personaje del jugador muere
+local function onCharacterDied(player)
+    if viewing == player then
+        -- Esperamos a que el jugador reaparezca
+        repeat wait() until player.Character and player.Character.Parent and player.Character:FindFirstChild("HumanoidRootPart")
+        
+        -- Cambiamos la cámara al jugador que ha reaparecido
+        workspace.CurrentCamera.CameraSubject = player.Character
+    end
+end
+
 -- Función principal para cambiar la vista de la cámara
 function ChangeCameraView(playerName, speaker)
     StopFreecam()  -- Detenemos la cámara libre si está activa
@@ -718,14 +729,17 @@ function ChangeCameraView(playerName, speaker)
             viewing = player
             workspace.CurrentCamera.CameraSubject = player.Character
             
-            -- Función para manejar cuando el personaje del jugador muere
-            local function onCharacterDied()
-                repeat wait() until player.Character and player.Character.Parent and player.Character:FindFirstChild("HumanoidRootPart")
-                workspace.CurrentCamera.CameraSubject = player.Character
-            end
-            
             -- Conectar al evento Died del Humanoid del jugador
-            viewDiedConnection = player.Character:FindFirstChildOfClass("Humanoid").Died:Connect(onCharacterDied)
+            local humanoid = player.Character:WaitForChild("Humanoid")
+            viewDiedConnection = humanoid.Died:Connect(function()
+                onCharacterDied(player)
+            end)
+            
+            -- Conectar al evento CharacterAdded para manejar cuando el jugador reaparece
+            viewChangedConnection = player.CharacterAdded:Connect(function()
+                -- Reiniciar la cámara al jugador que ha reaparecido
+                ChangeCameraView(playerName, speaker)
+            end)
         else
             warn("El jugador " .. v .. " no está en el juego o no se encontró.")
         end
