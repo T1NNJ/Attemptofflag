@@ -75,13 +75,13 @@
 
         glow.Name = "glow"
         glow.Parent = Main
-        glow.BackgroundColor3 = Color3.fromRGB(200, 0, 255)
+        glow.BackgroundColor3 = Color3.fromRGB(0, 255, 85)
         glow.BackgroundTransparency = 900
         glow.BorderSizePixel = 1
         glow.Position = UDim2.new(0, -15, 0, -15)
         glow.Size = UDim2.new(1, 32, 1, 32)
         glow.Image = "rbxassetid://4996891970"
-        glow.ImageColor3 = Color3.fromRGB(0, 0, 255)
+        glow.ImageColor3 = Color3.fromRGB(0, 255, 85)
         glow.ScaleType = Enum.ScaleType.Slice
         glow.SliceCenter = Rect.new(20, 20, 280, 280)
 
@@ -147,13 +147,13 @@
 
         glow_2.Name = "glow"
         glow_2.Parent = Title
-        glow_2.BackgroundColor3 = Color3.fromRGB(200, 0, 255)
+        glow_2.BackgroundColor3 = Color3.fromRGB(0, 255, 85)
         glow_2.BackgroundTransparency = 900
         glow_2.BorderSizePixel = 1
         glow_2.Position = UDim2.new(0, -15, 0, -15)
         glow_2.Size = UDim2.new(1, 30, 1, 30)
         glow_2.Image = "rbxassetid://4996891970"
-        glow_2.ImageColor3 = Color3.fromRGB(0, 0, 255)
+        glow_2.ImageColor3 = Color3.fromRGB(0, 255, 85)
         glow_2.ScaleType = Enum.ScaleType.Slice
         glow_2.SliceCenter = Rect.new(20, 20, 280, 280)
 
@@ -753,7 +753,7 @@
             TextBox.Position = UDim2.new(0, 0, 0, 0)
             TextBox.Size = UDim2.new(1,-25,1,0)
             TextBox.Font = Enum.Font.Roboto
-            TextBox.PlaceholderColor3 = Color3.fromRGB(200, 200, 200)
+            TextBox.PlaceholderColor3 = Color3.fromRGB(199, 199, 188)
             TextBox.PlaceholderText = name.."..."
             TextBox.Text = ""
             TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -1056,7 +1056,7 @@
             Title_2.Position = UDim2.new(0, -5, 0, 0)
             Title_2.Size = UDim2.new(1, 5, 1, 0)
             Title_2.ZIndex = 2
-            Title_2.Font = Enum.Font.Jura
+            Title_2.Font = Enum.Font.Arial
             Title_2.Text = " "..text
             Title_2.TextColor3 = Color3.fromRGB(255, 255, 255)
             Title_2.TextSize = 13.000
@@ -1084,13 +1084,13 @@
             
             glow.Name = "glow"
             glow.Parent = Title_2
-            glow.BackgroundColor3 = Color3.fromRGB(200, 0, 255)
+            glow.BackgroundColor3 = Color3.fromRGB(0, 255, 85)
             glow.BackgroundTransparency = 1.000
             glow.BorderSizePixel = 0
             glow.Position = UDim2.new(0, -15, 0, -15)
             glow.Size = UDim2.new(1, 30, 1, 30)
             glow.Image = "rbxassetid://4996891970"
-            glow.ImageColor3 = Color3.fromRGB(0, 0, 255)
+            glow.ImageColor3 = Color3.fromRGB(0, 255, 85)
             glow.ScaleType = Enum.ScaleType.Slice
             glow.SliceCenter = Rect.new(20, 20, 280, 280)
 
