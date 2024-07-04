@@ -214,6 +214,51 @@
         	end)
         end
         AddDrag(Title_2,Main)
+
+local Player = game.Players.LocalPlayer
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+
+local function AddDrag(frame1, frame2)
+    local isDragging = false
+    local dragInput
+    local dragStart
+    local startPos
+
+    local function updateInput(input)
+        local delta = input.Position - dragStart
+        frame2.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+
+    frame1.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+            isDragging = true
+            dragInput = input
+            startPos = frame2.Position
+            dragStart = input.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    isDragging = false
+                end
+            end)
+        end
+    end)
+
+    frame1.InputChanged:Connect(function(input)
+        if input == dragInput and isDragging then
+            updateInput(input)
+        end
+    end)
+
+    frame1.InputEnded:Connect(function(input)
+        if input == dragInput then
+            isDragging = false
+        end
+    end)
+end
+
+AddDrag(Title_2, Main)
         
         function Window:Button(name, callback)
             local callback = callback or function() end
