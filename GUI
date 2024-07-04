@@ -703,6 +703,55 @@
                 end
             end)
 
+-- ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA EMPIEZA
+
+-- Obtén el GUI llamado "Lib"
+local Lib = game:GetService("Players").LocalPlayer.PlayerGui.Lib
+
+-- Variables para el movimiento del GUI
+local UserInputService = game:GetService("UserInputService")
+local guiDragging = false
+local dragInput
+local dragStart
+local startPos
+
+-- Función para calcular el movimiento del GUI
+local function update(input)
+    local delta = input.Position - dragStart
+    Lib.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+-- Manejadores de eventos para el inicio y fin del arrastre
+Lib.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.Touch then
+        guiDragging = true
+        dragStart = input.Position
+        startPos = Lib.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                guiDragging = false
+            end
+        end)
+    end
+end)
+
+Lib.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.Touch and guiDragging then
+        dragInput = input
+    end
+end)
+
+-- Conexión del evento de actualización de la posición
+UserInputService.InputChanged:Connect(function(input)
+    if input == dragInput and guiDragging then
+        update(input)
+    end
+end)
+
+--ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA TERMINA
+
+
             Button.Name = "Button"
             Button.Parent = Dropdown
             Button.AnchorPoint = Vector2.new(1, 0.5)
