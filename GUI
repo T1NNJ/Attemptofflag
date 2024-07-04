@@ -214,7 +214,58 @@
         	end)
         end
         AddDrag(Title_2,Main)
-        
+--INICIA HERE
+local Player = game.Players.LocalPlayer
+local Touch = nil -- Variable para almacenar el toque activo
+local Frame1 = script.Parent.Title_2 -- Asegúrate de ajustar esto al nombre de tu marco draggable
+local Frame2 = script.Parent.Main -- Asegúrate de ajustar esto al nombre de tu marco que se moverá
+
+-- Función para iniciar el arrastre
+local function StartDrag(touch)
+    Touch = touch
+    local startPos = touch.Position
+    local framePos = Frame2.Position
+
+    -- Calcular el desplazamiento desde el inicio del toque
+    local offsetX = startPos.X.Offset - framePos.X.Offset
+    local offsetY = startPos.Y.Offset - framePos.Y.Offset
+
+    -- Función para mover el marco mientras se arrastra
+    local function MoveDrag(moveTouch)
+        if moveTouch == Touch then
+            local newPos = UDim2.new(
+                0, moveTouch.Position.X.Offset - offsetX,
+                0, moveTouch.Position.Y.Offset - offsetY
+            )
+            Frame2.Position = newPos
+        end
+    end
+
+    -- Conectar eventos para seguir el movimiento del toque
+    Touch.TouchMoved:Connect(MoveDrag)
+end
+
+-- Función para detener el arrastre
+local function StopDrag(touch)
+    if touch == Touch then
+        Touch = nil
+    end
+end
+
+-- Conectar evento para iniciar el arrastre al tocar Frame1
+Frame1.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.Touch then
+        StartDrag(input)
+    end
+end)
+
+-- Conectar evento para detener el arrastre al dejar de tocar
+Frame1.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.Touch then
+        StopDrag(input)
+    end
+end)
+--TERMINA HERE
         function Window:Button(name, callback)
             local callback = callback or function() end
             local Button = Instance.new("Frame")
@@ -702,53 +753,6 @@
                     end
                 end
             end)
-
--- ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA EMPIEZA
-
--- Obtenemos el GUI desde CoreGui
-local gui = game:GetService("CoreGui"):WaitForChild("Lib")
-
--- Variables para el drag
-local dragging = false
-local dragInput
-local dragStart
-local startPos
-
--- Función para iniciar el drag
-local function updateInput(input)
-    local delta = input.Position - dragStart
-    gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-end
-
--- Manejadores de eventos para el drag
-gui.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.Touch then
-        dragging = true
-        dragStart = input.Position
-        startPos = gui.Position
-        
-        input.Changed:Connect(function()
-            if input.UserInputState == Enum.UserInputState.End then
-                dragging = false
-            end
-        end)
-    end
-end)
-
-gui.InputChanged:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.Touch and dragging then
-        dragInput = input
-        updateInput(dragInput)
-    end
-end)
-
--- Devolver el GUI para verificar el funcionamiento
-return gui
-
-
-
---ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA TERMINA
-
 
             Button.Name = "Button"
             Button.Parent = Dropdown
