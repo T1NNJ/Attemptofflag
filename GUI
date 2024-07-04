@@ -203,6 +203,7 @@
 
         local Player = game.Players.LocalPlayer
         local Mouse = Player:GetMouse()
+        local touchControl = nil
         function AddDrag(frame1,frame2)
         	frame1.InputBegan:connect(function(inp)
         	    if inp.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -212,12 +213,7 @@
         	        until inp.UserInputState == Enum.UserInputState.End
         	    end
         	end)
-        end
-        AddDrag(Title_2,Main)
---INICIA HERE
-local function AddDrag(frame1, frame2)
-    local touchControl = nil
-
+        end --abajo va el add(
     frame1.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.Touch then
             touchControl = input
@@ -250,11 +246,6 @@ local function AddDrag(frame1, frame2)
         end
     end)
 end
-
--- Ejemplo de uso:
-local Title_2 = script.Parent.Title_2
-local Main = script.Parent.Main
-
 AddDrag(Title_2, Main)
 
 --TERMINA HERE
