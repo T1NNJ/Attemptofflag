@@ -203,7 +203,6 @@
 
         local Player = game.Players.LocalPlayer
         local Mouse = Player:GetMouse()
-        local touchControl = nil
         function AddDrag(frame1,frame2)
         	frame1.InputBegan:connect(function(inp)
         	    if inp.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -213,42 +212,9 @@
         	        until inp.UserInputState == Enum.UserInputState.End
         	    end
         	end)
-        end --abajo va el add(
-    frame1.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.Touch then
-            touchControl = input
-            local startPos = input.Position
-            local frame1Pos = frame1.Position
-
-            -- Calcular el desplazamiento desde el inicio del toque
-            local offsetX = startPos.X - frame1Pos.X.Offset
-            local offsetY = startPos.Y - frame1Pos.Y.Offset
-
-            -- Función para mover el marco mientras se arrastra
-            local function MoveDrag(moveInput)
-                if moveInput == touchControl then
-                    local newPos = UDim2.new(
-                        0, moveInput.Position.X - offsetX,
-                        0, moveInput.Position.Y - offsetY
-                    )
-                    frame2.Position = newPos
-                end
-            end
-
-            -- Conectar evento para seguir el movimiento del toque
-            input.Changed:Connect(function(changeInput)
-                if changeInput == Enum.UserInputState.End then
-                    touchControl = nil
-                end
-            end)
-
-            input.Changed:Connect(MoveDrag)
         end
-    end)
-end
-AddDrag(Title_2, Main)
-
---TERMINA HERE
+        AddDrag(Title_2,Main)
+        
         function Window:Button(name, callback)
             local callback = callback or function() end
             local Button = Instance.new("Frame")
