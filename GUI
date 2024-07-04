@@ -215,56 +215,38 @@
         end
         AddDrag(Title_2,Main)
 --INICIA HERE
-local Player = game.Players.LocalPlayer
-local Touch = nil -- Variable para almacenar el toque activo
-local Frame1 = script.Parent.Title_2 -- Asegúrate de ajustar esto al nombre de tu marco draggable
-local Frame2 = script.Parent.Main -- Asegúrate de ajustar esto al nombre de tu marco que se moverá
+local function AddDrag(frame1, frame2)
+    local touchControl = nil
 
--- Función para iniciar el arrastre
-local function StartDrag(touch)
-    Touch = touch
-    local startPos = touch.Position
-    local framePos = Frame2.Position
-
-    -- Calcular el desplazamiento desde el inicio del toque
-    local offsetX = startPos.X.Offset - framePos.X.Offset
-    local offsetY = startPos.Y.Offset - framePos.Y.Offset
-
-    -- Función para mover el marco mientras se arrastra
-    local function MoveDrag(moveTouch)
-        if moveTouch == Touch then
-            local newPos = UDim2.new(
-                0, moveTouch.Position.X.Offset - offsetX,
-                0, moveTouch.Position.Y.Offset - offsetY
-            )
-            Frame2.Position = newPos
+    frame1.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.Touch then
+            touchControl = input
         end
-    end
+    end)
 
-    -- Conectar eventos para seguir el movimiento del toque
-    Touch.TouchMoved:Connect(MoveDrag)
+    frame1.InputChanged:Connect(function(input)
+        if input == touchControl then
+            local newPos = UDim2.new(
+                0, input.Position.X - frame1.AbsoluteSize.X / 2,
+                0, input.Position.Y - frame1.AbsoluteSize.Y + 15
+            )
+            frame2.Position = newPos
+        end
+    end)
+
+    frame1.InputEnded:Connect(function(input)
+        if input == touchControl then
+            touchControl = nil
+        end
+    end)
 end
 
--- Función para detener el arrastre
-local function StopDrag(touch)
-    if touch == Touch then
-        Touch = nil
-    end
-end
+-- Ejemplo de uso:
+local Title_2 = script.Parent.Title_2
+local Main = script.Parent.Main
 
--- Conectar evento para iniciar el arrastre al tocar Frame1
-Frame1.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.Touch then
-        StartDrag(input)
-    end
-end)
+AddDrag(Title_2, Main)
 
--- Conectar evento para detener el arrastre al dejar de tocar
-Frame1.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.Touch then
-        StopDrag(input)
-    end
-end)
 --TERMINA HERE
         function Window:Button(name, callback)
             local callback = callback or function() end
