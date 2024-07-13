@@ -3,7 +3,6 @@ local Heartbeat = game:GetService("RunService").Heartbeat
 local walkSpeed = 15
 local plrs = game:GetService'Players'
 local Heartbeat = game:GetService("RunService").Heartbeat
-local dupping = false
 local plr = plrs.LocalPlayer
 local mouse = plr:GetMouse()
 local rep = game:GetService'ReplicatedStorage'
