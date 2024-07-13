@@ -1,9 +1,70 @@
 local UserInputService = game:GetService("UserInputService")
+local plrs = game:GetService'Players'
+local Heartbeat = game:GetService("RunService").Heartbeat
+local plr = plrs.LocalPlayer
+local mouse = plr:GetMouse()
+local rep = game:GetService'ReplicatedStorage'
+local uis = game:GetService'UserInputService'
+local ts = game:GetService'TweenService'
+local rs = game:GetService'RunService'
+
+local Player = game:GetService("Players").LocalPlayer
+local Mouse = Player:GetMouse()
+
+local Player = game:GetService'Players'.LocalPlayer;
+local UIS = game:GetService'UserInputService';
+ 
+_G.JumpHeight = 50;
+ 
+function Action(Object, Function) if Object ~= C4 then Function(Object); end end
+ 
+UIS.InputBegan:connect(function(UserInput)
+    if UserInput.UserInputType == Enum.UserInputType.Keyboard and UserInput.KeyCode == Enum.KeyCode.Space then
+        Action(Player.Character.Humanoid, function(self)
+            if self:GetState() == Enum.HumanoidStateType.Jumping or self:GetState() == Enum.HumanoidStateType.Freefall then
+                Action(self.Parent.HumanoidRootPart, function(self)
+                    self.Velocity = Vector3.new(0, _G.JumpHeight, 0);
+                end)
+            end
+        end)
+    end
+end)
+
+local Mouse = game.Players.LocalPlayer:GetMouse()
+game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
+if IsTyping then return end
+if Input.KeyCode == Enum.KeyCode.Z then      
+        for _,v in next,plr.Backpack:GetChildren() do
+            if v.Name == 'Grenade' and v:FindFirstChild'RemoteEvent' then
+                v.Parent = plr.Character
+                wait(.1)  
+                v:Activate()
+                wait()
+                v.Parent = plr.Backpack
+            end
+         end
+         end
+         end)
+         --
+local Mouse = game.Players.LocalPlayer:GetMouse()
+game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
+if IsTyping then return end
+if Input.KeyCode == Enum.KeyCode.B then      
+        for _,v in next,plr.Backpack:GetChildren() do
+            if v.Name == 'C4' and v:FindFirstChild'RemoteEvent' then
+                v.Parent = plr.Character
+                v.RemoteEvent:FireServer(mouse.Hit.LookVector)
+                wait()
+                v.Parent = plr.Backpack
+            end
+         end
+         end
+         end)
+
+local UserInputService = game:GetService("UserInputService")
 local Heartbeat = game:GetService("RunService").Heartbeat
 local walkSpeed = 15
 local plrs = game:GetService'Players'
-local Heartbeat = game:GetService("RunService").Heartbeat
-local dupping = false
 local plr = plrs.LocalPlayer
 local mouse = plr:GetMouse()
 local rep = game:GetService'ReplicatedStorage'
@@ -33,7 +94,7 @@ spawn(function()
             if not uis:IsKeyDown(Enum.KeyCode.LeftShift) then
                 plr.Character.Humanoid.WalkSpeed = walkSpeed
             elseif uis:IsKeyDown(Enum.KeyCode.LeftShift) then
-                plr.Character.Humanoid.WalkSpeed = walkSpeed+7
+                plr.Character.Humanoid.WalkSpeed = walkSpeed+4
             end
         end)
     end
@@ -45,7 +106,7 @@ spawn(function()
             if not uis:IsKeyDown(Enum.KeyCode.E) then
                 plr.Character.Humanoid.WalkSpeed = walkSpeed
             elseif uis:IsKeyDown(Enum.KeyCode.E) then
-                plr.Character.Humanoid.WalkSpeed = walkSpeed+9
+                plr.Character.Humanoid.WalkSpeed = walkSpeed+5
             end
         end)
     end
@@ -107,13 +168,6 @@ local function Shoot(firstPos,nextPos,Revolver)
     end
 end
 
-
-local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/T1NNJ/Attemptofflag/main/GUI", true))()
-local Table = {}
-
-local window = Lib:CreateWindow("LIT A CHAOS LOL")
-
-window:Section(" Main Functions")
 --Fake delay
 plr:GetMouse().KeyDown:Connect(function(key)
     if key == 'r' then
@@ -159,7 +213,6 @@ AddCd(v,0.1)
     end
 end)
 
-window:Button("Hitlock v8.4i",function()
 plr:GetMouse().KeyDown:Connect(function(key)
     if key == 'r' then
         tar = nil
@@ -179,10 +232,9 @@ plr:GetMouse().KeyDown:Connect(function(key)
             end
         end
         local sp = Instance.new('SelectionBox',n_plr.Character.Torso)
-        local speed = 10
         sp.Name = 'SelectedPlayer'
         sp.Adornee = n_plr.Character.HumanoidRootPart
-        sp.Color3 = Color3.fromRGB(255,2,100)
+        sp.Color3 = Color3.new(255, 0, 0)
         sp.Transparency = 0.45
         tar = n_plr
     elseif key == 'q' and tar and plr.Character then
@@ -195,180 +247,212 @@ plr:GetMouse().KeyDown:Connect(function(key)
                 if v:FindFirstChild'Blade' then
                     for _,x in next,v.Blade:GetChildren() do
                         if x:IsA'Sound' then
-                        wait(.1)
+wait(.1)
                             x:Play()
                         end
                     end
                 end
+rs.Stepped:Wait() --LOLLLL Fixed.
                 v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')
-            elseif v:IsA'Tool' and v.Name == 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'ReplicateRemote' and v:FindFirstChild'Barrel' and v.Barrel:FindFirstChild'Attachment' and tar and tar.Character and tar.Character:FindFirstChild'Torso' then
+            elseif v:IsA'Tool' and v.Name == 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'ReplicateRemote' and v:FindFirstChild'Barrel' and v.Barrel:FindFirstChild'Attachment' and tar and tar.Character and tar.Character:FindFirstChild'Head' then
                 v.Parent = plr.Character
-                AddCd(v,1)
+                AddCd(v,1.1)
                 rs.Stepped:wait()
                 plr.Character:FindFirstChildOfClass'Humanoid':LoadAnimation(v.Fire):Play()
-                Shoot(v.Barrel.Attachment.WorldPosition,tar.Character:FindFirstChild("Right Leg").Position,v)
-                v.ReplicateRemote:FireServer(tar.Character:FindFirstChild("HumanoidRootPart").Position)            
+                Shoot(v.Barrel.Attachment.WorldPosition,tar.Character:WaitForChild("Head").Position,v)
+                v.ReplicateRemote:FireServer(tar.Character:WaitForChild("Head").Position)            
             end
         end
     end
 end)
+
+
+
+plr:GetMouse().KeyDown:Connect(function(key)
+    if key == 'z' and tar and plr.Character then 
+        for _,v in next,plr.Character:GetDescendants() do
+            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
+                AddCd(v,v.Cooldown.Value)
+                  Workspace.HelloJesus009:WaitForChild('Emerald Greatsword').Blade.HitSound:Play()
+rs.Stepped:Wait() --LOLLLL Fixed.
+v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
+            end
+        end
+   end
+ 
 end)
 
-window:Button("RGB Sprint Bar",function()
-local speed = 10
-while true do
-	for i = 0,1,0.001*speed do
-		game:GetService("Players").LocalPlayer.PlayerGui.Sprinting.Frame.Frame.BackgroundColor3 = Color3.fromHSV(i,1,1)
-		wait()
-	end
+plr:GetMouse().KeyDown:Connect(function(key)
+    if key == 'x' then
+        for _,v in next,plr.Backpack:GetChildren() do
+            if v.Name == 'Grenade' then
+                pcall(function()
+                    v.Parent = plr.Character
+                    wait(.1)
+    plr.Character:FindFirstChildOfClass'Humanoid':LoadAnimation(v.Throw):Play()     
+                    v:Activate(mouse.Hit.LookVector)
+                    wait()
+                end)
+            end
+        end
 end
 end)
 
-window:Dropdown("Dropdown",{location = Table,flag = "weapon",search = false --[[AddsSearchBar]], list = {"Mace","Chainsaw","Knife","Pan","Pencil","Baseball Bat","Scythe", "Emerald Greatsword","Blood Dagger","Frost Spear"}--[[Wont work when PlayerList = true]], PlayerList = false --[[ Turns the list into the players in the server ]]},function()
+
+plr:GetMouse().KeyDown:Connect(function(key)
+    if key == 'b' then
+        for _,v in next,plr.Backpack:GetChildren() do
+            if v.Name == 'C4' then
+                pcall(function()
+                    v.Parent = plr.Character
+v.RemoteEvent:FireServer(mouse.Hit.LookVector)        
+            wait()
+                end)
+            end
+        end
+end
+end)
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Hitlock";
+    Text = "Cargada correctamente!";
+    Icon = "http://www.roblox.com/asset/?id=5585095509";
+    Duration = "DURATION IN SECONDS";
+    callbakc = bindableFunction;
+})
+
+game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
+if IsTyping then return end
+if Input.KeyCode == Enum.KeyCode.Clear then
+        for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if v.Name == "Emerald Greatsword" then
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                for i=1,2 do
+                    game:GetService("RunService").Heartbeat:Wait()
+                end
+            end
+        end
+    end
+end)
+
+game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
+if IsTyping then return end
+if Input.KeyCode == Enum.KeyCode.Clear then
+        for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if v.Name == "Chainsaw" then
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                for i=1,2 do
+                    game:GetService("RunService").Heartbeat:Wait()
+                end
+            end
+        end
+    end
+end)
+
+game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
+if IsTyping then return end
+if Input.KeyCode == Enum.KeyCode.Clear then
+        for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if v.Name == "Pencil" then
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                for i=1,2 do
+                    game:GetService("RunService").Heartbeat:Wait()
+                end
+            end
+        end
+    end
+end)
+
+game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
+if IsTyping then return end
+if Input.KeyCode == Enum.KeyCode.Clear then
+        for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+            if v.Name == "Blood Dagger" then
+                game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                for i=1,2 do
+                    game:GetService("RunService").Heartbeat:Wait()
+                end
+            end
+        end
+    end
+end)
+
+
+game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
+if IsTyping then return end
+if Input.KeyCode == Enum.KeyCode.Clear then
+game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
+local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
+        local Target = A_1
+           repeat
+               wait()
+local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
+          until Target.Health <= 0
+Event:FireServer(A_1)
+end
+end)
+
+
+game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
+if IsTyping then return end
+if Input.KeyCode == Enum.KeyCode.KeypadFive then
+game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
+local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
+        local Target = A_1
+           repeat
+               wait()
+local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
+          until Target.Health <= 0
+Event:FireServer(A_1)
+end
+end)
+
+
 local Mouse = game.Players.LocalPlayer:GetMouse()
 game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
 if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.W then
+if Input.KeyCode == Enum.KeyCode.F1 then
+game.Workspace.HelloJesus009.Humanoid.Health = 0
+end
+end)
+
+--Disable AutoJump
+
+game.Players.LocalPlayer.AutoJumpEnabled = false
+
+--Q backspace
+
+local Mouse = game.Players.LocalPlayer:GetMouse()
+game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
+if IsTyping then return end
+if Input.KeyCode == Enum.KeyCode.Q then
+    wait()
+game:GetService("VirtualInputManager"):SendKeyEvent(true,Enum.KeyCode.Backspace,false,game)
+end
+end)
+
+local Mouse = game.Players.LocalPlayer:GetMouse()
+game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
+if IsTyping then return end
+if Input.KeyCode == Enum.KeyCode.Z then
 while true do wait()
 local Player = game:GetService("Players").LocalPlayer
 local Mouse = Player:GetMouse()
 
 
 	game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Menu Screen").Enabled = false
-    Player.PlayerGui["Menu Screen"].RemoteEvent:FireServer(Table["weapon"])
+    Player.PlayerGui["Menu Screen"].RemoteEvent:FireServer("Emerald Greatsword")
 wait(1) end
 end
 end)
-end)
 
-window:Button("Set Night",function()
-game.Lighting:SetMinutesAfterMidnight(0)
-    end)
-
-window:Button("Infinite Yield v5",function()
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'),true))()
-end)
-
-local function GetChar()
-    local Char = Player.Character or Player.CharacterAdded:Wait()
-    return Char
+local function Notify(title,text,duration)
+    game:GetService'StarterGui':SetCore('SendNotification',{
+        Title = tostring(title),
+        Text = tostring(text),
+        Duration = tonumber(duration),
+    })
 end
-
---
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Mace" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Chainsaw" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Knife" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Baseball Bat" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Pan" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Blood Dagger" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
 
 game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
 if IsTyping then return end
@@ -388,547 +472,3 @@ local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfC
 Event:FireServer(A_1)
 end
 end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Pencil" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Scythe" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-wait()
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Frost Spear" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
-
-game.StarterGui:SetCore("SendNotification", {
-    Title = "Loading..";
-    Text = "Wait until load..";
-    Icon = "http://www.roblox.com/asset/?id=5585103223";
-    Duration = 2;
-    callback = bindableFunction;
-})
-
-window:Section(" Target List")
-
-wait(.1)
-
-window:Dropdown("Select Target",{location = Table,flag = "player1",search = true --[[AddsSearchBar]], list = {"Mace","Chainsaw","Knife","Pan","Pencil","Baseball Bat","Scythe","Emerald Greatsword","Blood Dagger"} --[[Wont work when PlayerList = true]], PlayerList = true --[[ Turns the list into the players in the server ]]},function()game.StarterGui:SetCore("SendNotification", {
-    Title = "Target:";
-    Text = "Selected sucessfully!";
-    Icon = "http://www.roblox.com/asset/?id=5585103223";
-    Duration = 5;
-    callback = bindableFunction;
-})
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadMinus then
-wait()
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Table["player1"])
-local A_1 = game:GetService("Workspace"):FindFirstChild(Table["player1"]).Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local A_1 = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1) and not v:FindFirstChild("ForceField")
-          until Target.Health <= 0
-end
-end)
-end)
-
-wait(.1)
-
-window:Dropdown("Select Target",{location = Table,flag = "player2",search = true --[[AddsSearchBar]], list = {"Mace","Chainsaw","Knife","Pan","Pencil","Baseball Bat","Scythe","Emerald Greatsword","Blood Dagger"} --[[Wont work when PlayerList = true]], PlayerList = true --[[ Turns the list into the players in the server ]]},function()game.StarterGui:SetCore("SendNotification", {
-    Title = "Target:";
-    Text = "Selected sucessfully!";
-    Icon = "http://www.roblox.com/asset/?id=5585103223";
-    Duration = 5;
-    callback = bindableFunction;
-})
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadMinus then
-wait()
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Table["player2"])
-local A_2 = game:GetService("Workspace"):FindFirstChild(Table["player2"]).Humanoid
-        local Target = A_2
-           repeat
-               wait()
-local A_2 = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_2) and not v:FindFirstChild("ForceField")
-          until Target.Health <= 0
-end
-end)
-end)
-
-wait(.1)
-
-window:Dropdown("Select Target",{location = Table,flag = "player3",search = true --[[AddsSearchBar]], list = {"Mace","Chainsaw","Knife","Pan","Pencil","Baseball Bat","Scythe","Emerald Greatsword","Blood Dagger"} --[[Wont work when PlayerList = true]], PlayerList = true --[[ Turns the list into the players in the server ]]},function()game.StarterGui:SetCore("SendNotification", {
-    Title = "Target:";
-    Text = "Selected sucessfully!";
-    Icon = "http://www.roblox.com/asset/?id=5585103223";
-    Duration = 5;
-    callback = bindableFunction;
-})
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadMinus then
-wait()
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Table["player3"])
-local A_3 = game:GetService("Workspace"):FindFirstChild(Table["player3"]).Humanoid
-        local Target = A_3
-           repeat
-               wait()
-local A_3 = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_3) and not v:FindFirstChild("ForceField")
-          until Target.Health <= 0
-end
-end)
-end)
-
-wait(.1)
-
-window:Dropdown("Select Target",{location = Table,flag = "player4",search = true --[[AddsSearchBar]], list = {"Mace","Chainsaw","Knife","Pan","Pencil","Baseball Bat","Scythe","Emerald Greatsword","Blood Dagger"} --[[Wont work when PlayerList = true]], PlayerList = true --[[ Turns the list into the players in the server ]]},function()game.StarterGui:SetCore("SendNotification", {
-    Title = "Target:";
-    Text = "Selected sucessfully!";
-    Icon = "http://www.roblox.com/asset/?id=5585103223";
-    Duration = 5;
-    callback = bindableFunction;
-})
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadMinus then
-wait()
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Table["player4"])
-local A_4 = game:GetService("Workspace"):FindFirstChild(Table["player4"]).Humanoid
-        local Target = A_4
-           repeat
-               wait()
-local A_4 = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_4) and not v:FindFirstChild("ForceField")
-          until Target.Health <= 0
-          end
-end)
-end)
-
-wait(.1)
-
-window:Dropdown("Select Target",{location = Table,flag = "player4",search = true --[[AddsSearchBar]], list = {"Mace","Chainsaw","Knife","Pan","Pencil","Baseball Bat","Scythe","Emerald Greatsword","Blood Dagger"} --[[Wont work when PlayerList = true]], PlayerList = true --[[ Turns the list into the players in the server ]]},function()game.StarterGui:SetCore("SendNotification", {
-    Title = "Target:";
-    Text = "Selected sucessfully!";
-    Icon = "http://www.roblox.com/asset/?id=5585103223";
-    Duration = 5;
-    callback = bindableFunction;
-})
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadMinus then
-wait()
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Table["player5"])
-local A_5 = game:GetService("Workspace"):FindFirstChild(Table["player5"]).Humanoid
-        local Target = A_5
-           repeat
-               wait()
-local A_5 = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_5) and not v:FindFirstChild("ForceField")
-          until Target.Health <= 0
-          end
-end)
-end)
-
-
-
-local Pressing = false
-window:Toggle("Start/Stop Looping",{location = Table, flag = "enable"},function()
-local stopFlag = false
-
-local function pressKey()
-    game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.KeypadMinus, false, game)
-end
-
-if Pressing then
-    Pressing = false
-    stopFlag = true
-else
-    Pressing = true
-    stopFlag = false
-    spawn(function()
-        repeat
-            pressKey()
-            wait(1)
-            game:GetService("RunService").Heartbeat:Wait()
-        until stopFlag or not Pressing
-    end)
-end
-end)
-
-
-local KillingNear = false
-window:Toggle("Kill Everyone",{location = Table, flag = "enable"},function()   
-local stopFlag = false
-
-local Player = game.Players.LocalPlayer
-local Workspace = game.Workspace
-
-local function GetChar()
-    return Player.Character
-end
-
-local function FindNearestHumanoid()
-    local target = nil
-    local nearestDistance = 10000
-    
-    for i, v in pairs(Workspace:GetChildren()) do
-        if v ~= GetChar() then
-            local humanoid = v:FindFirstChild("Humanoid")
-            local rootPart = v:FindFirstChild("HumanoidRootPart")
-            
-            if humanoid and rootPart then
-                local distance = (rootPart.Position - GetChar().HumanoidRootPart.Position).magnitude
-                
-                if humanoid.Health > 0 and not v:FindFirstChild("ForceField") and distance <= nearestDistance then
-                    target = humanoid
-                    nearestDistance = distance
-                end
-            end
-        end
-    end
-    
-    return target
-end
-
-local function DamageTarget(target)
-    local tool = GetChar():FindFirstChildOfClass("Tool")
-    
-    if tool then
-        tool.DamageRemote:FireServer(target)
-    end
-end
-
-local function CheckTargets()
-    while not stopFlag and KillingNear do
-        local nearestTarget = FindNearestHumanoid()
-        
-        if nearestTarget then
-            DamageTarget(nearestTarget)
-        end
-        
-        wait()
-    end
-end
-
-if KillingNear then
-    KillingNear = false
-    stopFlag = true
-else
-    KillingNear = true
-    stopFlag = false
-    spawn(function()
-        CheckTargets()
-    end)
-end
-end)
-
-window:Button("God Mode (Void)",function()
-game:GetService("Players").LocalPlayer.Character.PickupRemote:FireServer()
-wait()
-game.Players.LocalPlayer.Character["Torso"]:Destroy()
-wait()
-game.Players.LocalPlayer.Character["Humanoid"]:Destroy()
-wait(1)
-local player = game.Players.LocalPlayer
-local Blade = game.Workspace[player.Name]:WaitForChild("Pencil"):FindFirstChild("Blade"):Destroy()
-wait()
-local Hadle = game.Workspace[player.Name]:WaitForChild("Pencil"):FindFirstChild("Handle"):Destroy()
-wait()
-local Mesh1 = game.Workspace[player.Name]:WaitForChild("Pencil"):FindFirstChild("Meshes/wooden pencil_Cylinder.002"):Destroy()
-wait() 
-local Mesh2 = game.Workspace[player.Name]:WaitForChild("Pencil"):FindFirstChild("Meshes/wooden pencil_Cylinder.003"):Destroy()
-wait()
-local Mesh3 = game.Workspace[player.Name]:WaitForChild("Pencil"):FindFirstChild("Meshes/wooden pencil_Cylinder.003"):Destroy()
-game.StarterGui:SetCore("SendNotification", {
-    Title = "God mode";
-    Text = "Done, now the god mode has anti void pencil include!";
-    Icon = "http://www.roblox.com/asset/?id=5585095509";
-    Duration = 5;
-    callback = bindableFunction;
-})
-end)
-
-window:Button("Kill Everyone (Void, Perm)",function()
-loadstring(game:HttpGet("https://scriptblox.com/raw/CHAOS-Kill-Aura-13562"))()
-end)
-
-window:Button("Move Pencil With Mouse",function()
-local UIS = game:GetService("UserInputService")
-
-local Player = game.Players.LocalPlayer
-local Mouse = Player:GetMouse()
-
-
-function GetCharacter()
-local Player = game.Players.LocalPlayer
-local Move = game.Workspace[player.Name].Pencil
-end
-
-function Teleport(pos)
-   local Tool = GetCharacter()
-   if Tool then
-       Tool:MoveTo(pos)
-   end
-end
-
-
-UIS.InputBegan:Connect(function(input)
-   if input.UserInputType == Enum.UserInputType.MouseButton1 and Enum.KeyCode.Z then
-       Teleport(Mouse.Hit.p)
-   end
-end)
-end)
-
-window:Section(" View Players")
-
-window:Dropdown("Select a player!",{location = Table,flag = "TXT",search = true --[[AddsSearchBar]], list = {"1","2","3","4","5","6","7","8","9","0"} --[[Wont work when PlayerList = true]], PlayerList = true --[[ Turns the list into the players in the server ]]},function()
-local viewing = nil
-local viewDiedConnection = nil
-local viewChangedConnection = nil
-local currentSpeaker = nil
-
--- Función para detener la cámara libre
-function StopFreecam()
-    -- Aquí va la lógica para detener la cámara libre, si es necesario
-end
-
--- Función para obtener jugadores
-function getPlayer(playerName, speaker)
-    -- Aquí debes implementar la lógica para obtener el jugador basado en playerName o speaker
-    -- Por ejemplo, si playerName es el nombre del jugador, puedes buscarlo en el juego.
-    -- Si speaker es un jugador, puedes devolver una lista con ese jugador.
-    return {playerName}  -- Ejemplo simple: devolvemos un array con un solo jugador para este ejemplo
-end
-
--- Función para cambiar la vista de la cámara
-function ChangeCameraView(playerName, speaker)
-    StopFreecam()  -- Detenemos la cámara libre si está activa
-    
-    local players = getPlayer(playerName, speaker)
-    
-    -- Desconectar eventos anteriores si existen
-    if viewDiedConnection then
-        viewDiedConnection:Disconnect()
-    end
-    if viewChangedConnection then
-        viewChangedConnection:Disconnect()
-    end
-    
-    for i, v in pairs(players) do
-        local player = game.Players[v]
-        
-        if player then
-            viewing = player
-            workspace.CurrentCamera.CameraSubject = player.Character
-            
-            -- Conectar al evento CharacterAdded para manejar cuando el jugador reaparece
-            viewChangedConnection = player.CharacterAdded:Connect(function()
-                -- Solo cambiar la vista si el jugador reaparecido es diferente al jugador actualmente visto
-                if viewing ~= player then
-                    ChangeCameraView(playerName, speaker)
-                end
-            end)
-            
-            -- Salir del bucle una vez que se haya encontrado un jugador válido
-            break
-        else
-            warn("El jugador " .. v .. " no está en el juego o no se encontró.")
-        end
-    end
-    
-    -- Actualizar el currentSpeaker para el nuevo usuario
-    currentSpeaker = speaker
-end
-
--- Monitorear el cambio de usuario
-game.Players.PlayerAdded:Connect(function(player)
-    if currentSpeaker == game.Players.LocalPlayer then
-        -- Si el usuario actual es el jugador local, cambiar la vista a este jugador
-        ChangeCameraView("TXT", player)
-    else
-        -- Si no es el jugador local, desconectar los eventos para evitar eventos colgados
-        if viewChangedConnection then
-            viewChangedConnection:Disconnect()
-            viewChangedConnection = nil
-        end
-    end
-end)
-
-game.StarterGui:SetCore("SendNotification", {
-    Title = "Viewing..";
-    Text = "Select yourself to stop!";
-    Icon = "http://www.roblox.com/asset/?id=5585095509";
-    Duration = 5;
-    callback = bindableFunction;
-})
--- Inicialmente, configurar la vista para el jugador local
-ChangeCameraView(Table["TXT"], game.Players.LocalPlayer)
-end) 
-
-window:Button("Check for a pencil",function()
-local toolName = "Pencil"
-local synx = "lapiz!"
-
-local playersWithTool = {}  -- Tabla para mantener registro de jugadores con el lápiz
-
-local function checkTools()
-    for _, player in pairs(game.Players:GetPlayers()) do
-        local backpack = player.Backpack
-        if backpack then
-            local tool = backpack:FindFirstChild(toolName)
-            if tool and not playersWithTool[player.Name] then
-                -- Si el jugador tiene el lápiz y no está en el registro
-                playersWithTool[player.Name] = true  -- Registrar al jugador
-                game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", {
-                    Text = player.Name .. " tiene equipado un " .. synx
-                })
-            end
-        end
-    end
-end
-
--- Revisa los equipos cada cierto tiempo
-while true do
-    checkTools()
-    -- Espera un tiempo antes de volver a revisar (puedes ajustar este valor)
-    wait(6)
-end
-end)
-
-window:Section(" Change Log")
-
-window:Button(" Change Log #1246Y.",function()
-game.StarterGui:SetCore("SendNotification", {
-    Title = "Version:";
-    Text = "Current version is 1246Y!";
-    Icon = "http://www.roblox.com/asset/?id=5585095509";
-    Duration = 3;
-    callback = bindableFunction;
-})
-end)
-
-window:Button(" Last update: 08/07/24.",function()
-game.StarterGui:SetCore("SendNotification", {
-    Title = "Last update:";
-    Text = "08/07/24.";
-    Icon = "http://www.roblox.com/asset/?id=5585095509";
-    Duration = 3;
-    callback = bindableFunction;
-})
-end)
-
-window:Button(" Added view function!",function()
-end)
-
-window:Button(" GUI draggable PC/MOB.",function()
-game.StarterGui:SetCore("SendNotification", {
-    Title = "GUI";
-    Text = "You can now move the gui on mobile and pc!";
-    Icon = "http://www.roblox.com/asset/?id=5585095509";
-    Duration = 3;
-    callback = bindableFunction;
-})
-end)
-
-window:Section(" Credits")
-
-window:Button(" Teck (t5nnk).",function()
-game.StarterGui:SetCore("SendNotification", {
-    Title = "Credits:";
-    Text = "All gui and hitlock modifications, DISCORD: t5nnk.";
-    Icon = "http://www.roblox.com/asset/?id=5585095509";
-    Duration = 5;
-    callback = bindableFunction;
-})
-end)
-
-window:Button(" KAKOYTO_LOXX (KAKK7ITO).",function()
-game.StarterGui:SetCore("SendNotification", {
-    Title = "Credits:";
-    Text = "Hitlock script!";
-    Icon = "http://www.roblox.com/asset/?id=5585095509";
-    Duration = 5;
-    callback = bindableFunction;
-})
-end)
-
-local Mouse = game.Players.LocalPlayer:GetMouse()
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.F1 then
-local player = game.Players.LocalPlayer  -- Obtener el jugador local
-local humanoid = game.Workspace[player.Name].Humanoid  -- Obtener el Humanoid del jugador local
-humanoid.Health = 0  -- Establecer la salud del Humanoid a 0
-end
-end)
-
---Disable AutoJump
-
-game.Players.LocalPlayer.AutoJumpEnabled = false
-
---Q backspace
-
-local Mouse = game.Players.LocalPlayer:GetMouse()
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.Q then
-    wait()
-game:GetService("VirtualInputManager"):SendKeyEvent(true,Enum.KeyCode.Backspace,false,game)
-end
-end)
-
-game.StarterGui:SetCore("SendNotification", {
-    Title = "Loaded!";
-    Text = "GUI Loaded sucessfully!";
-    Icon = "http://www.roblox.com/asset/?id=5585095509";
-    Duration = 5;
-    callback = bindableFunction;
-})
