@@ -689,6 +689,13 @@ end
 end)
 
 window:Button("God Mode (Void)",function()
+game.StarterGui:SetCore("SendNotification", {
+    Title = "God mode:";
+    Text = "This got anti void pencil include!";
+    Icon = "http://www.roblox.com/asset/?id=5585095509";
+    Duration = 5;
+    callback = bindableFunction;
+})
 game:GetService("Players").LocalPlayer.Character.PickupRemote:FireServer()
 wait()
 game.Players.LocalPlayer.Character["Torso"]:Destroy()
@@ -707,21 +714,8 @@ wait()
 local Mesh3 = game.Workspace[player.Name]:WaitForChild("Pencil"):FindFirstChild("Meshes/wooden pencil_Cylinder.003"):Destroy()
 end)
 
-window:Button("Kill Everyone (Void, Perm)",function()
+window:Button("Kill All (Void/Perm)",function()
 loadstring(game:HttpGet("https://scriptblox.com/raw/CHAOS-Kill-Aura-13562"))()
-end)
-
-window:Button("AntiVoid Pencil",function()
-local player = game.Players.LocalPlayer
-local Blade = game.Workspace[player.Name].Pencil:FindFirstChild("Blade"):Destroy()
-wait()
-local Hadle = game.Workspace[player.Name].Pencil:FindFirstChild("Handle"):Destroy()
-wait()
-local Mesh1 = game.Workspace[player.Name].Pencil:FindFirstChild("Meshes/wooden pencil_Cylinder.002"):Destroy()
-wait() 
-local Mesh2 = game.Workspace[player.Name].Pencil:FindFirstChild("Meshes/wooden pencil_Cylinder.003"):Destroy()
-wait()
-local Mesh3 = game.Workspace[player.Name].Pencil:FindFirstChild("Meshes/wooden pencil_Cylinder.003"):Destroy()
 end)
 
 window:Button("Move Pencil With Mouse",function()
