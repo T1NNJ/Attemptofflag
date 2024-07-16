@@ -267,12 +267,49 @@ window:Button("Infinite Yield v5",function()
 loadstring(game:HttpGet(('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'),true))()
 end)
 
-local function GetChar()
-    local Char = Player.Character or Player.CharacterAdded:Wait()
-    return Char
+window:Bind("Fake Freeze ON/OFF",{location = Table, flag = "KeyBind", default = Enum.KeyCode.C},function()
+wait()
+local player = game.Players.LocalPlayer
+Anchored = false
+
+
+game:GetService('RunService').Stepped:connect(function()
+if Anchored then
+Workspace[player.Name].HumanoidRootPart.Anchored = true
+end
+end)
+plr = game.Players.LocalPlayer
+mouse = plr:GetMouse()
+mouse.KeyDown:connect(function(key)
+local Mouse = game.Players.LocalPlayer:GetMouse()
+game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
+if IsTyping then return end
+if Input.KeyCode == (Table["KeyBind"]) then
+Anchored = not Anchored
+Workspace[player.Name].HumanoidRootPart.Anchored = false
+end
+end)
+end)
+end)
+
+window:Bind("Click T.P",{location = Table, flag = "KeyBind1", default = Enum.KeyCode.V},function()
+local Imput = game:GetService("UserInputService")
+local Plr = game:service'Players'.LocalPlayer
+local Mouse = Plr:GetMouse()
+
+function To(position)
+    local Chr = Plr.Character
+    if Chr ~= nil then
+        Chr:MoveTo(position)
+    end
 end
 
---
+Imput.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 and Imput:IsKeyDown(Table["KeyBind1"]) then
+        To(Mouse.Hit.p)
+    end
+end)
+end)
 
 game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
 if IsTyping then return end
@@ -745,78 +782,7 @@ UIS.InputBegan:Connect(function(input)
 end)
 end)
 
-window:Section(" View Players")
-
-window:Dropdown("Select a player!",{location = Table,flag = "TXT",search = true --[[AddsSearchBar]], list = {"1","2","3","4","5","6","7","8","9","0"} --[[Wont work when PlayerList = true]], PlayerList = true --[[ Turns the list into the players in the server ]]},function()
-local viewing = nil
-local viewDiedConnection = nil
-local viewChangedConnection = nil
-
--- Función para detener la cámara libre
-function StopFreecam()
-    -- Aquí va la lógica para detener la cámara libre, si es necesario
-end
-
--- Función para obtener jugadores
-function getPlayer(playerName, speaker)
-    -- Aquí debes implementar la lógica para obtener el jugador basado en playerName o speaker
-    -- Por ejemplo, si playerName es el nombre del jugador, puedes buscarlo en el juego.
-    -- Si speaker es un jugador, puedes devolver una lista con ese jugador.
-    return {playerName}  -- Ejemplo simple: devolvemos un array con un solo jugador para este ejemplo
-end
-
--- Función para manejar cuando el personaje del jugador muere
-local function onCharacterDied(player)
-    if viewing == player then
-        -- Esperamos a que el jugador reaparezca
-        repeat wait() until player.Character and player.Character.Parent and player.Character:FindFirstChild("HumanoidRootPart")
-        
-        -- Cambiamos la cámara al jugador que ha reaparecido
-        workspace.CurrentCamera.CameraSubject = player.Character
-    end
-end
-
--- Función principal para cambiar la vista de la cámara
-function ChangeCameraView(playerName, speaker)
-    StopFreecam()  -- Detenemos la cámara libre si está activa
-    
-    local players = getPlayer(playerName, speaker)
-    
-    for i, v in pairs(players) do
-        -- Desconectar eventos anteriores si existen
-        if viewDiedConnection then
-            viewDiedConnection:Disconnect()
-        end
-        if viewChangedConnection then
-            viewChangedConnection:Disconnect()
-        end
-        
-        local player = game.Players[v]
-        
-        if player then
-            viewing = player
-            workspace.CurrentCamera.CameraSubject = player.Character
-            
-            -- Conectar al evento Died del Humanoid del jugador
-            local humanoid = player.Character:WaitForChild("Humanoid")
-            viewDiedConnection = humanoid.Died:Connect(function()
-                onCharacterDied(player)
-            end)
-            
-            -- Conectar al evento CharacterAdded para manejar cuando el jugador reaparece
-            viewChangedConnection = player.CharacterAdded:Connect(function()
-                -- Reiniciar la cámara al jugador que ha reaparecido
-                ChangeCameraView(playerName, speaker)
-            end)
-        else
-            warn("El jugador " .. v .. " no está en el juego o no se encontró.")
-        end
-    end
-end
-
--- Ejemplo de uso:
-ChangeCameraView(Table["TXT"], game.Players.LocalPlayer)
-end) 
+window:Section(" Fling A Player")
 
 window:Dropdown("Fling A Player",{location = Table,flag = "Target",search = true --[[AddsSearchBar]], list = {"1","2","3","4","5","6","7","8","9","0"} --[[Wont work when PlayerList = true]], PlayerList = true --[[ Turns the list into the players in the server ]]},function()
 local Players = game:GetService("Players")
@@ -914,7 +880,7 @@ for i,v in next, Hum:GetPlayingAnimationTracks() do
     v:Stop()
 end
 
-wait(5)
+wait(7)
 
 local player = game.Players.LocalPlayer
 local humanoid = game.Workspace[player.Name].Humanoid
