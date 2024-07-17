@@ -131,8 +131,8 @@ local rs = game:GetService("RunService")
 local function AddGlow(selectionBox)
     local glow = Instance.new("PointLight")
     glow.Name = "SelectionGlow"
-    glow.Color = Color3.fromRGB(0, 11, 255)
-    glow.Brightness = 5
+    glow.Color = Color3.fromRGB(0, 0, 255)
+    glow.Brightness = 8
     glow.Range = 10
     glow.Parent = selectionBox
 end
@@ -143,12 +143,12 @@ local function CreateNeonPart(adornedPart, player)
     neonPart.Name = "SelectedPlayer"
     neonPart.Anchored = true
     neonPart.CanCollide = false
-    neonPart.Transparency = 1
+    neonPart.Transparency = 0.85
     neonPart.Size = adornedPart.Size
     neonPart.Position = adornedPart.Position
     neonPart.CFrame = adornedPart.CFrame
     neonPart.Material = Enum.Material.Neon
-    neonPart.Color = Color3.fromRGB(0, 11, 255)
+    neonPart.Color = Color3.fromRGB(0, 20, 255)
     AddGlow(neonPart) -- Add glow to the neon part
     neonPart.Parent = adornedPart
     
@@ -260,7 +260,7 @@ end)
 end)
 
 window:Button("Set Night",function()
-game.Lighting:SetMinutesAfterMidnight(0)
+game.Lighting:SetMinutesAfterMidnight(155)
     end)
 
 window:Button("Infinite Yield v5",function()
