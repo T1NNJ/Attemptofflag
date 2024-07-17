@@ -910,7 +910,7 @@ AddDrag(Title_2, Main)
                         Key.Text = "nil"
                         location[flag] = nil
                         Check:Disconnect() 
-                        wait() -- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASDASDA ACA
+                        wait(.6) -- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASDASDA ACA
                         Usable = true
                     end
                 end)
