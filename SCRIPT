@@ -658,6 +658,101 @@ else
 end
 end)
 
+local Farming = false
+window:Toggle("Dupe Grenade 2",{location = Table, flag = "Farming"},function()
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Dupe:";
+    Text = "Hold on..";
+    Icon = "http://www.roblox.com/asset/?id=5585095509";
+    Duration = 3;
+    callback = bindableFunction;
+})
+    if Farming then
+        Farming = false
+    else
+        Farming = true
+        repeat
+local player = game.Players.LocalPlayer
+repeat
+    wait(1)
+until player.Character
+
+local player = game.Players.LocalPlayer
+
+repeat
+    wait(1)
+until player.Character
+
+player.PlayerGui:WaitForChild("Menu Screen").Enabled = false
+player.PlayerGui["Menu Screen"].RemoteEvent:FireServer("Emerald Greatsword")
+
+local function performActionAfterSpawn()
+    wait() -- Pequeña pausa para garantizar que todo funcione correctamente
+    player.Character.HumanoidRootPart.CFrame = CFrame.new(-287, 108, -48)
+    wait(0.3) -- Pequeña pausa antes de realizar la siguiente acción
+
+    local humanoid = player.Character.Humanoid
+    if humanoid then
+        humanoid.Health = 0
+        wait()
+        game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.Two, false, game)
+        wait(0.3)
+        game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.Backspace, false, game)
+    end
+end
+
+wait()
+
+if player.Character then
+    performActionAfterSpawn()
+else
+    player.CharacterAdded:Connect(performActionAfterSpawn)
+end
+            game:GetService("RunService").Heartbeat:Wait()
+        until stopFlag or not Farming
+    end
+end)
+
+window:Button("Collect All Grenades (W FF)",function()
+local root = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("HumanoidRootPart") or game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("BasePart")
+
+local function touch(x)
+    x = x:FindFirstAncestorWhichIsA("BasePart")
+    if x and firetouchinterest then
+        if x.Name == "Spiked Trap" then
+            -- Ignorar el 'Spiked Trap'
+            return
+        end
+        
+        task.spawn(function()
+            firetouchinterest(x, root, 1)
+            wait()
+            firetouchinterest(x, root, 0)
+        end)
+        x.CFrame = root.CFrame
+    end
+end
+
+for _, descendant in ipairs(workspace:GetDescendants()) do
+    if descendant:IsA("TouchTransmitter") then
+        touch(descendant)
+    end
+end
+end) 
+
+window:Button("Spam Grenade 2",function()
+        for _,v in next,plr.Backpack:GetChildren() do
+            if v.Name == 'Grenade 2' and v:FindFirstChild'RemoteEvent' then
+                v.Parent = plr.Character
+                v.RemoteEvent:FireServer(mouse.Hit.LookVector)
+                v.Parent = plr.Backpack
+            end
+        end
+end)
+
+window:Button("Teleport To Farm Position",function()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-292, 60, -68)
+end)
 
 local KillingNear = false
 window:Toggle("Kill Everyone",{location = Table, flag = "enable"},function()   
@@ -945,6 +1040,7 @@ game.StarterGui:SetCore("SendNotification", {
     Duration = 5;
     callback = bindableFunction;
 })
+
 plr:GetMouse().KeyDown:Connect(function(key)
 if key == 'z' and tar and plr.Character then 
         for _,v in next,plr.Character:GetDescendants() do
