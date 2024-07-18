@@ -658,102 +658,6 @@ else
 end
 end)
 
-local Farming = false
-window:Toggle("Dupe Grenade 2",{location = Table, flag = "Farming"},function()
-game.StarterGui:SetCore("SendNotification", {
-    Title = "Dupe:";
-    Text = "Hold on..";
-    Icon = "http://www.roblox.com/asset/?id=5585095509";
-    Duration = 3;
-    callback = bindableFunction;
-})
-    if Farming then
-        Farming = false
-    else
-        Farming = true
-        repeat
-local player = game.Players.LocalPlayer
-repeat
-    wait(1)
-until player.Character
-
-local player = game.Players.LocalPlayer
-
-repeat
-    wait(1)
-until player.Character
-
-player.PlayerGui:WaitForChild("Menu Screen").Enabled = false
-player.PlayerGui["Menu Screen"].RemoteEvent:FireServer("Emerald Greatsword")
-
-local function performActionAfterSpawn()
-    wait() -- Pequeña pausa para garantizar que todo funcione correctamente
-    player.Character.HumanoidRootPart.CFrame = CFrame.new(-287, 108, -48)
-    wait(0.3) -- Pequeña pausa antes de realizar la siguiente acción
-
-    local humanoid = player.Character.Humanoid
-    if humanoid then
-        humanoid.Health = 0
-        wait()
-        game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.Two, false, game)
-        wait(0.3)
-        game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.Backspace, false, game)
-    end
-end
-
-wait()
-
-if player.Character then
-    performActionAfterSpawn()
-else
-    player.CharacterAdded:Connect(performActionAfterSpawn)
-end
-            game:GetService("RunService").Heartbeat:Wait()
-        until stopFlag or not Farming
-    end
-end)
-
-window:Button("Collect All Grenades (W FF)",function()
-local root = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("HumanoidRootPart") or game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("BasePart")
-
-local function touch(x)
-    x = x:FindFirstAncestorWhichIsA("BasePart")
-    if x and firetouchinterest then
-        if x.Name == "Spiked Trap" then
-            -- Ignorar el 'Spiked Trap'
-            return
-        end
-        
-        task.spawn(function()
-            firetouchinterest(x, root, 1)
-            wait()
-            firetouchinterest(x, root, 0)
-        end)
-        x.CFrame = root.CFrame
-    end
-end
-
-for _, descendant in ipairs(workspace:GetDescendants()) do
-    if descendant:IsA("TouchTransmitter") then
-        touch(descendant)
-    end
-end
-end) 
-
-window:Button("Spam Grenade 2",function()
-        for _,v in next,plr.Backpack:GetChildren() do
-            if v.Name == 'Grenade 2' and v:FindFirstChild'RemoteEvent' then
-                v.Parent = plr.Character
-                v.RemoteEvent:FireServer(mouse.Hit.LookVector)
-                v.Parent = plr.Backpack
-            end
-        end
-end)
-
-window:Button("Teleport To Farm Position",function()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-292, 60, -68)
-end)
-
 local KillingNear = false
 window:Toggle("Kill Everyone",{location = Table, flag = "enable"},function()   
 local stopFlag = false
@@ -1006,6 +910,227 @@ while true do
     -- Espera un tiempo antes de volver a revisar (puedes ajustar este valor)
     wait(6)
 end
+end)
+
+local Farming = false
+window:Toggle("Dupe Grenade 2",{location = Table, flag = "Farming"},function()
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Dupe:";
+    Text = "Hold on..";
+    Icon = "http://www.roblox.com/asset/?id=5585095509";
+    Duration = 3;
+    callback = bindableFunction;
+})
+    if Farming then
+        Farming = false
+    else
+        Farming = true
+        repeat
+local player = game.Players.LocalPlayer
+
+repeat
+    wait()
+until player.Character
+
+local player = game.Players.LocalPlayer
+
+repeat
+    wait(.6)
+until player.Character
+
+local playerGui = player:FindFirstChild("PlayerGui")
+if playerGui then
+    local menuScreen = playerGui:FindFirstChild("Menu Screen")
+    if menuScreen and menuScreen:IsA("ScreenGui") then
+        menuScreen.Enabled = false
+        if menuScreen:FindFirstChild("RemoteEvent") then
+            menuScreen.RemoteEvent:FireServer("Emerald Greatsword")
+        else
+            warn("RemoteEvent not found in Menu Screen.")
+        end
+    else
+        warn("Menu Screen not found or is not a ScreenGui.")
+    end
+else
+    warn("PlayerGui not found.")
+end
+
+local function performActionAfterSpawn()
+    wait()
+    if player.Character then
+        player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(-287, 108, -48)
+        wait(0.3)
+
+        local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.Health = 0
+            wait()
+local player = game.Players.LocalPlayer
+
+repeat
+    wait(.2)
+until player.Character
+
+local grenade2 = player.Backpack:FindFirstChild("Grenade 2")
+
+if grenade2 then
+    local humanoid = player.Character:FindFirstChild("Humanoid")
+
+    if humanoid then
+        humanoid:EquipTool(grenade2)
+    else
+        warn("Humanoid not found in player's character.")
+    end
+else
+    warn("Grenade 2 tool not found in player's backpack.")
+           end
+            wait(0.3)
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.Backspace, false, game)
+        end
+    else
+        warn("Player or Humanoid not found.")
+    end
+end
+
+if player.Character then
+    performActionAfterSpawn()
+else
+    player.CharacterAdded:Connect(performActionAfterSpawn)
+end
+ game:GetService("RunService").Heartbeat:Wait()
+        until stopFlag or not Farming
+    end
+end)
+
+window:Button("Collect All Grenades (W FF)",function()
+local root = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("HumanoidRootPart") or game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("BasePart")
+
+local function touch(x)
+    x = x:FindFirstAncestorWhichIsA("BasePart")
+    if x and firetouchinterest then
+        if x.Name == "Spiked Trap" then
+            -- Ignorar el 'Spiked Trap'
+            return
+        end
+        
+        task.spawn(function()
+            firetouchinterest(x, root, 1)
+            wait()
+            firetouchinterest(x, root, 0)
+        end)
+        x.CFrame = root.CFrame
+    end
+end
+
+for _, descendant in ipairs(workspace:GetDescendants()) do
+    if descendant:IsA("TouchTransmitter") then
+        touch(descendant)
+    end
+end
+end) 
+
+window:Button("Spam Grenade 2",function()
+        for _,v in next,plr.Backpack:GetChildren() do
+            if v.Name == 'Grenade 2' and v:FindFirstChild'RemoteEvent' then
+                v.Parent = plr.Character
+                v.RemoteEvent:FireServer(mouse.Hit.LookVector)
+                v.Parent = plr.Backpack
+            end
+        end
+end)
+
+window:Button("Teleport To Farm Zone",function()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-292, 60, -68)
+end)
+
+window:Button("Fling Grenade 2 Particles (F)",function()
+local UserInputService = game:GetService("UserInputService")
+local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
+local Folder = Instance.new("Folder", game:GetService("Workspace"))
+local Part = Instance.new("Part", Folder)
+local Attachment1 = Instance.new("Attachment", Part)
+Part.Anchored = true
+Part.CanCollide = false
+Part.Transparency = 1
+local Updated = Mouse.Hit + Vector3.new(0, 5, 0)
+local NetworkAccess = coroutine.create(function()
+    settings().Physics.AllowSleep = false
+    while game:GetService("RunService").RenderStepped:Wait() do
+        for _, Players in next, game:GetService("Players"):GetPlayers() do
+            if Players ~= game:GetService("Players").LocalPlayer then
+                Players.MaximumSimulationRadius = 0 
+                sethiddenproperty(Players, "SimulationRadius", 0) 
+            end 
+        end
+        game:GetService("Players").LocalPlayer.MaximumSimulationRadius = math.pow(math.huge,math.huge)
+        setsimulationradius(math.huge) 
+    end 
+end) 
+coroutine.resume(NetworkAccess)
+local function ForcePart(v)
+    if v:IsA("Part") and v.Anchored == false and v.Parent:FindFirstChild("Humanoid") == nil and v.Parent:FindFirstChild("Head") == nil and v.Name ~= "Handle" then
+        Mouse.TargetFilter = v
+        for _, x in next, v:GetChildren() do
+            if x:IsA("BodyAngularVelocity") or x:IsA("BodyForce") or x:IsA("BodyGyro") or x:IsA("BodyPosition") or x:IsA("BodyThrust") or x:IsA("BodyVelocity") or x:IsA("RocketPropulsion") then
+                x:Destroy()
+            end
+        end
+        if v:FindFirstChild("Attachment") then
+            v:FindFirstChild("Attachment"):Destroy()
+        end
+        if v:FindFirstChild("AlignPosition") then
+            v:FindFirstChild("AlignPosition"):Destroy()
+        end
+        if v:FindFirstChild("Torque") then
+            v:FindFirstChild("Torque"):Destroy()
+        end
+        v.CanCollide = false
+        local Torque = Instance.new("Torque", v)
+        Torque.Torque = Vector3.new(100000, 100000, 100000)
+        local AlignPosition = Instance.new("AlignPosition", v)
+        local Attachment2 = Instance.new("Attachment", v)
+        Torque.Attachment0 = Attachment2
+        AlignPosition.MaxForce = 9999999999999999
+        AlignPosition.MaxVelocity = math.huge
+        AlignPosition.Responsiveness = 200
+        AlignPosition.Attachment0 = Attachment2 
+        AlignPosition.Attachment1 = Attachment1
+    end
+end
+for _, v in next, game:GetService("Workspace"):GetDescendants() do
+    ForcePart(v)
+end
+game:GetService("Workspace").DescendantAdded:Connect(function(v)
+    ForcePart(v)
+end)
+UserInputService.InputBegan:Connect(function(Key, Chat)
+    if Key.KeyCode == Enum.KeyCode.E and not Chat then
+       Updated = Mouse.Hit + Vector3.new(0, 5, 0)
+    end
+end)
+spawn(function()
+    while game:GetService("RunService").RenderStepped:Wait() do
+        Attachment1.WorldCFrame = Updated
+    end
+end)
+end)
+
+window:Button("How Grenade 2 fling particles?",function()
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Instructions:";
+    Text = "This script fling players with the grenade 2 particles when this explodes, this works";
+    Icon = "http://www.roblox.com/asset/?id=5585095509";
+    Duration = 15;
+    callback = bindableFunction;
+})
+wait(5)
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Instructions:";
+    Text = "mouse part to bring these particles there and then press F!";
+    Icon = "http://www.roblox.com/asset/?id=5585095509";
+    Duration = 15;
+    callback = bindableFunction;
+})
 end)
 
 local Mouse = game.Players.LocalPlayer:GetMouse()
