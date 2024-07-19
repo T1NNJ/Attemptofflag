@@ -131,7 +131,7 @@ local rs = game:GetService("RunService")
 local function AddGlow(selectionBox)
     local glow = Instance.new("PointLight")
     glow.Name = "SelectionGlow"
-    glow.Color = Color3.fromRGB(0, 0, 255)
+    glow.Color = Color3.fromRGB(50, 0, 255)
     glow.Brightness = 8
     glow.Range = 10
     glow.Parent = selectionBox
@@ -148,7 +148,7 @@ local function CreateNeonPart(adornedPart, player)
     neonPart.Position = adornedPart.Position
     neonPart.CFrame = adornedPart.CFrame
     neonPart.Material = Enum.Material.Neon
-    neonPart.Color = Color3.fromRGB(0, 20, 255)
+    neonPart.Color = Color3.fromRGB(50, 0, 255)
     AddGlow(neonPart) -- Add glow to the neon part
     neonPart.Parent = adornedPart
     
@@ -232,6 +232,28 @@ plr:GetMouse().KeyDown:Connect(function(key)
         end
     end)
 end)
+
+window:Button("Inf Jump",function()
+local Player = game:GetService'Players'.LocalPlayer;
+local UIS = game:GetService'UserInputService';
+ 
+_G.JumpHeight = 50;
+ 
+function Action(Object, Function) if Object ~= C4 then Function(Object); end end
+ 
+UIS.InputBegan:connect(function(UserInput)
+    if UserInput.UserInputType == Enum.UserInputType.Keyboard and UserInput.KeyCode == Enum.KeyCode.Space then
+        Action(Player.Character.Humanoid, function(self)
+            if self:GetState() == Enum.HumanoidStateType.Jumping or self:GetState() == Enum.HumanoidStateType.Freefall then
+                Action(self.Parent.HumanoidRootPart, function(self)
+                    self.Velocity = Vector3.new(0, _G.JumpHeight, 0);
+                end)
+            end
+        end)
+    end
+end)
+end)
+
 window:Button("RGB Sprint Bar",function()
 local speed = 10
 while true do
@@ -242,7 +264,7 @@ while true do
 end
 end)
 
-window:Dropdown("Dropdown",{location = Table,flag = "weapon",search = false --[[AddsSearchBar]], list = {"Mace","Chainsaw","Knife","Pan","Pencil","Baseball Bat","Scythe", "Emerald Greatsword","Blood Dagger","Frost Spear"}--[[Wont work when PlayerList = true]], PlayerList = false --[[ Turns the list into the players in the server ]]},function()
+window:Dropdown("Auto Select:",{location = Table,flag = "weapon",search = false --[[AddsSearchBar]], list = {"Mace","Chainsaw","Knife","Pan","Pencil","Baseball Bat","Scythe", "Emerald Greatsword","Blood Dagger","Frost Spear"}--[[Wont work when PlayerList = true]], PlayerList = false --[[ Turns the list into the players in the server ]]},function()
 local Mouse = game.Players.LocalPlayer:GetMouse()
 game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
 if IsTyping then return end
@@ -267,32 +289,81 @@ window:Button("Infinite Yield v5",function()
 loadstring(game:HttpGet(('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'),true))()
 end)
 
-window:Bind("Fake Freeze ON/OFF",{location = Table, flag = "KeyBind", default = Enum.KeyCode.C},function()
-wait()
-local player = game.Players.LocalPlayer
-Anchored = false
+window:Button("Owner Hotkeys",function()
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local Workspace = game:GetService("Workspace")
 
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
 
-game:GetService('RunService').Stepped:connect(function()
-if Anchored then
-Workspace[player.Name].HumanoidRootPart.Anchored = true
-end
+UserInputService.InputBegan:Connect(function(input, isTyping)
+    if isTyping then return end
+    
+    -- Check if the Emerald Greatsword tool is equipped
+    local currentTool = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Tool")
+    if currentTool and currentTool.Name == "Emerald Greatsword" then
+        return  -- Exit the function if Emerald Greatsword is equipped
+    end
+    
+    if input.KeyCode == Enum.KeyCode.Z then
+        -- Check tools in the player's Backpack
+        for _, tool in ipairs(LocalPlayer.Backpack:GetChildren()) do
+            if tool:IsA("Tool") and tool.Name == 'Grenade' and tool:FindFirstChild('RemoteEvent') then
+                -- Move tool to the player's character to activate
+                tool.Parent = LocalPlayer.Character
+                wait(0.1)
+                tool:Activate()
+                wait(0.1)
+                tool.Parent = LocalPlayer.Backpack
+            end
+        end
+        
+        -- Check tools equipped in Workspace
+        local toolsInWorkspace = Workspace:FindPartsInRegion3(Workspace.CurrentCamera.CFrame:PointToWorldSpace(Workspace.CurrentCamera.ViewportSize) + Vector3.new(-5, -5, -5), Workspace.CurrentCamera.CFrame:PointToWorldSpace(Workspace.CurrentCamera.ViewportSize) + Vector3.new(5, 5, 5))
+        for _, tool in ipairs(toolsInWorkspace) do
+            if tool:IsA("Tool") and tool.Name == 'Grenade' and tool:FindFirstChild('RemoteEvent') then
+                -- Activate tool in Workspace
+                tool:Activate()
+                break
+            end
+        end
+    end
 end)
-plr = game.Players.LocalPlayer
-mouse = plr:GetMouse()
-mouse.KeyDown:connect(function(key)
-local Mouse = game.Players.LocalPlayer:GetMouse()
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == (Table["KeyBind"]) then
-Anchored = not Anchored
-Workspace[player.Name].HumanoidRootPart.Anchored = false
-end
-end)
+
+         --
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+
+UserInputService.InputBegan:Connect(function(input, isTyping)
+    if isTyping then return end
+    
+    if input.KeyCode == Enum.KeyCode.B then
+        -- Check if Kawaii Revolver is equipped
+        local currentTool = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Tool")
+        if currentTool and currentTool.Name == "Kawaii Revolver" then
+            -- Unequip Kawaii Revolver
+            currentTool.Parent = LocalPlayer.Backpack
+        end
+        
+        -- Check tools in the player's Backpack
+        for _, tool in ipairs(LocalPlayer.Backpack:GetChildren()) do
+            if tool.Name == 'C4' and tool:FindFirstChild('RemoteEvent') then
+                -- Move C4 tool to the player's character and activate
+                tool.Parent = LocalPlayer.Character
+                tool.RemoteEvent:FireServer(Mouse.Hit.LookVector)
+                wait(0.1)
+                tool.Parent = LocalPlayer.Backpack
+            end
+        end
+    end
 end)
 end)
 
-window:Bind("Click T.P",{location = Table, flag = "KeyBind1", default = Enum.KeyCode.V},function()
+window:Bind("Click TP (V)",{location = Table, flag = "KeyBind1", default = Enum.KeyCode.V},function()
 local Imput = game:GetService("UserInputService")
 local Plr = game:service'Players'.LocalPlayer
 local Mouse = Plr:GetMouse()
@@ -913,7 +984,7 @@ end
 end)
 
 local Farming = false
-window:Toggle("Dupe Grenade 2",{location = Table, flag = "Farming"},function()
+window:Toggle("Farm Grenade 2",{location = Table, flag = "Farming"},function()
 game.StarterGui:SetCore("SendNotification", {
     Title = "Dupe:";
     Text = "Hold on..";
@@ -1043,6 +1114,10 @@ window:Button("Teleport To Farm Zone",function()
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-292, 60, -68)
 end)
 
+window:Button("Teleport Up (Exit)",function()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-286, 97, -2)
+end)
+
 window:Button("Fling Grenade 2 Particles (F)",function()
 local UserInputService = game:GetService("UserInputService")
 local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
@@ -1104,7 +1179,7 @@ game:GetService("Workspace").DescendantAdded:Connect(function(v)
     ForcePart(v)
 end)
 UserInputService.InputBegan:Connect(function(Key, Chat)
-    if Key.KeyCode == Enum.KeyCode.E and not Chat then
+    if Key.KeyCode == Enum.KeyCode.F and not Chat then
        Updated = Mouse.Hit + Vector3.new(0, 5, 0)
     end
 end)
@@ -1113,24 +1188,6 @@ spawn(function()
         Attachment1.WorldCFrame = Updated
     end
 end)
-end)
-
-window:Button("How Grenade 2 fling particles?",function()
-game.StarterGui:SetCore("SendNotification", {
-    Title = "Instructions:";
-    Text = "This script fling players with the grenade 2 particles when this explodes, this works";
-    Icon = "http://www.roblox.com/asset/?id=5585095509";
-    Duration = 15;
-    callback = bindableFunction;
-})
-wait(5)
-game.StarterGui:SetCore("SendNotification", {
-    Title = "Instructions:";
-    Text = "mouse part to bring these particles there and then press F!";
-    Icon = "http://www.roblox.com/asset/?id=5585095509";
-    Duration = 15;
-    callback = bindableFunction;
-})
 end)
 
 local Mouse = game.Players.LocalPlayer:GetMouse()
@@ -1161,8 +1218,8 @@ end)
 game.StarterGui:SetCore("SendNotification", {
     Title = "Loaded!";
     Text = "GUI Loaded sucessfully!";
-    Icon = "http://www.roblox.com/asset/?id=5585095509";
-    Duration = 5;
+    Icon = "http://www.roblox.com/asset/?id=5585095509"; 
+    Duration = 5; 
     callback = bindableFunction;
 })
 
