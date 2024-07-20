@@ -825,33 +825,6 @@ window:Button("Kill All (Void/Perm)",function()
 loadstring(game:HttpGet("https://scriptblox.com/raw/CHAOS-Kill-Aura-13562"))()
 end)
 
-window:Button("Move Pencil With Mouse",function()
-local UIS = game:GetService("UserInputService")
-
-local Player = game.Players.LocalPlayer
-local Mouse = Player:GetMouse()
-
-
-function GetCharacter()
-local Player = game.Players.LocalPlayer
-local Move = game.Workspace[player.Name].Pencil
-end
-
-function Teleport(pos)
-   local Tool = GetCharacter()
-   if Tool then
-       Tool:MoveTo(pos)
-   end
-end
-
-
-UIS.InputBegan:Connect(function(input)
-   if input.UserInputType == Enum.UserInputType.MouseButton1 and Enum.KeyCode.Z then
-       Teleport(Mouse.Hit.p)
-   end
-end)
-end)
-
 window:Section(" Fling A Player")
 
 window:Dropdown("Fling A Player",{location = Table,flag = "Target",search = true --[[AddsSearchBar]], list = {"1","2","3","4","5","6","7","8","9","0"} --[[Wont work when PlayerList = true]], PlayerList = true --[[ Turns the list into the players in the server ]]},function()
@@ -981,6 +954,32 @@ while true do
     -- Espera un tiempo antes de volver a revisar (puedes ajustar este valor)
     wait(6)
 end
+end)
+window:Button("Teleport to Pencil (NEW)",function()
+local Players = game:GetService("Players")
+local toolName = "Pencil"
+
+local function teleportToPencil()
+    for _, player in pairs(Players:GetPlayers()) do
+        local character = player.Character
+        if character then
+            local tool = character:FindFirstChild(toolName)
+            if tool then
+                local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+                if humanoidRootPart then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = humanoidRootPart.CFrame + Vector3.new(0, 0, 5)
+                    return
+                else
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = tool.Handle.CFrame + Vector3.new(0, 0, 5)
+                    return
+                end
+            end
+        end
+    end
+    warn("No player found with the tool "..toolName.." equipped.")
+end
+
+teleportToPencil()
 end)
 
 local Farming = false
