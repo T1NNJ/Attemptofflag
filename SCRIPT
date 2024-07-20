@@ -268,7 +268,7 @@ window:Dropdown("Auto Select:",{location = Table,flag = "weapon",search = false 
 local Mouse = game.Players.LocalPlayer:GetMouse()
 game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
 if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.W then
+if Input.KeyCode == Enum.KeyCode.KeypadSeven then
 while true do wait()
 local Player = game:GetService("Players").LocalPlayer
 local Mouse = Player:GetMouse()
@@ -279,6 +279,18 @@ local Mouse = Player:GetMouse()
 wait(1) end
 end
 end)
+end)
+
+window:Toggle("Auto Select Tool",{location = Table, flag = "weaponzz"},function() 
+wait(.5)  
+game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.KeypadSeven, false, game)
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Current:";
+    Text = (Table["weapon"]),
+    Icon = "http://www.roblox.com/asset/?id=5585095509"; 
+    Duration = 5; 
+    callback = bindableFunction;
+})
 end)
 
 window:Button("Set Night",function()
@@ -730,7 +742,7 @@ end
 end)
 
 local KillingNear = false
-window:Toggle("Kill Everyone",{location = Table, flag = "enable"},function()   
+window:Toggle("Kill All",{location = Table, flag = "enable"},function()   
 local stopFlag = false
 
 local Player = game.Players.LocalPlayer
