@@ -110,7 +110,7 @@ end
 local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/T1NNJ/Attemptofflag/main/GUI", true))()
 local Table = {}
 
-local window = Lib:CreateWindow("ANTI ABUSERS!!")
+local window = Lib:CreateWindow("Chaos v7.6.2y")
 
 window:Section(" Main Functions")
 
@@ -281,9 +281,10 @@ end
 end)
 end)
 
-window:Toggle("Auto Select Tool",{location = Table, flag = "weaponzz"},function() 
-wait(.5)  
-game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.KeypadSeven, false, game)
+
+local Pressing = false
+window:Toggle("Auto Select Tool",{location = Table, flag = "enable"},function()
+local stopFlag = false
 game.StarterGui:SetCore("SendNotification", {
     Title = "Current:";
     Text = (Table["weapon"]),
@@ -291,7 +292,27 @@ game.StarterGui:SetCore("SendNotification", {
     Duration = 5; 
     callback = bindableFunction;
 })
+local function pressKey()
+wait(.5)  
+game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.KeypadSeven, false, game)
+end
+
+if Pressing then
+    Pressing = false
+    stopFlag = true
+else
+    Pressing = true
+    stopFlag = false
+    spawn(function()
+        repeat
+            pressKey()
+            wait(1)
+            game:GetService("RunService").Heartbeat:Wait()
+        until stopFlag or not Pressing
+    end)
+end
 end)
+
 
 window:Button("Set Night",function()
 game.Lighting:SetMinutesAfterMidnight(155)
@@ -378,6 +399,7 @@ Services.RunService.Heartbeat:Connect(function()
 end)
 end)
 
+
 window:Button("Owner Hotkeys",function()
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
@@ -449,6 +471,61 @@ UserInputService.InputBegan:Connect(function(input, isTyping)
             end
         end
     end
+end)
+end)
+
+window:Button("Grenade 2 (Modded)",function()
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Loaded!";
+    Text = "This function basically is an automatic tp grenade 2 with the mouse, reset to remove!";
+    Icon = "http://www.roblox.com/asset/?id=5585095509"; 
+    Duration = 10; 
+    callback = bindableFunction;
+})
+local UIS = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local Mouse = Players.LocalPlayer:GetMouse()
+
+function GetCharacter()
+    return workspace:FindFirstChild(Players.LocalPlayer.Name):WaitForChild("Grenade 2") -- Reemplaza "HelloJesus009" con el nombre de tu jugador
+end
+
+function Teleport(pos)
+    local Tool = GetCharacter()
+    if Tool then
+        Tool:MoveTo(pos)
+    end
+end
+
+while true do
+    Teleport(Mouse.Hit.p)
+    wait(0.1)  -- Ajusta el tiempo de espera entre cada teletransporte
+end
+end)
+
+window:Bind("Quick Grenade 2 Glitch",{location = Table, flag = "KeyBind", default = Enum.KeyCode.Q},function()
+local Mouse = game.Players.LocalPlayer:GetMouse()
+game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
+if IsTyping then return end
+if Input.KeyCode == (Table["KeyBind"]) then
+
+
+local UIS = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local Mouse = Players.LocalPlayer:GetMouse()
+
+function GetCharacter()
+    return workspace:FindFirstChild(Players.LocalPlayer.Name):WaitForChild("Grenade 2") -- Reemplaza "HelloJesus009" con el nombre de tu jugador
+end
+
+function Teleport(pos)
+    local Tool = GetCharacter()
+    if Tool then
+        Tool:MoveTo(pos)
+    end
+end
+Teleport(Mouse.Hit.p)
+end
 end)
 end)
 
@@ -1288,28 +1365,8 @@ humanoid.Health = 0  -- Establecer la salud del Humanoid a 0
 end
 end)
 
---Disable AutoJump
-
+--Disables AutoJump
 game.Players.LocalPlayer.AutoJumpEnabled = false
-
---Q backspace
-
-local Mouse = game.Players.LocalPlayer:GetMouse()
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.Q then
-    wait()
-game:GetService("VirtualInputManager"):SendKeyEvent(true,Enum.KeyCode.Backspace,false,game)
-end
-end)
-
-game.StarterGui:SetCore("SendNotification", {
-    Title = "Loaded!";
-    Text = "GUI Loaded sucessfully!";
-    Icon = "http://www.roblox.com/asset/?id=5585095509"; 
-    Duration = 5; 
-    callback = bindableFunction;
-})
 
 plr:GetMouse().KeyDown:Connect(function(key)
 if key == 'z' and tar and plr.Character then 
@@ -1324,3 +1381,11 @@ if key == 'z' and tar and plr.Character then
         end
    end
 end)
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Loaded!";
+    Text = "GUI Loaded sucessfully!";
+    Icon = "http://www.roblox.com/asset/?id=5585095509"; 
+    Duration = 5; 
+    callback = bindableFunction;
+})
