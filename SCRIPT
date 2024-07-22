@@ -110,7 +110,7 @@ end
 local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/T1NNJ/Attemptofflag/main/GUI", true))()
 local Table = {}
 
-local window = Lib:CreateWindow("Chaos v7.6.2y")
+local window = Lib:CreateWindow("Chaos v7.6.3y")
 
 window:Section(" Main Functions")
 
@@ -131,26 +131,26 @@ local rs = game:GetService("RunService")
 local function AddGlow(selectionBox)
     local glow = Instance.new("PointLight")
     glow.Name = "SelectionGlow"
-    glow.Color = Color3.fromRGB(50, 0, 255)
-    glow.Brightness = 8
+    glow.Color = Color3.fromRGB(200, 0, 0)
+    glow.Brightness = 15
     glow.Range = 10
     glow.Parent = selectionBox
 end
 
 -- Function to create a neon part and update its position
 local function CreateNeonPart(adornedPart, player)
-    local neonPart = Instance.new("Part")
-    neonPart.Name = "SelectedPlayer"
-    neonPart.Anchored = true
-    neonPart.CanCollide = false
-    neonPart.Transparency = 0.85
-    neonPart.Size = adornedPart.Size
-    neonPart.Position = adornedPart.Position
-    neonPart.CFrame = adornedPart.CFrame
-    neonPart.Material = Enum.Material.Neon
-    neonPart.Color = Color3.fromRGB(50, 0, 255)
-    AddGlow(neonPart) -- Add glow to the neon part
-    neonPart.Parent = adornedPart
+local neonPart = Instance.new("Part")
+neonPart.Name = "SelectedPlayer"
+neonPart.Anchored = true
+neonPart.CanCollide = false
+neonPart.Transparency = 0.85
+neonPart.Size = Vector3.new(0.1, 0.1, 0.1) -- Cambiado el tamaño a 0.1
+neonPart.Position = adornedPart.Position
+neonPart.CFrame = adornedPart.CFrame
+neonPart.Material = Enum.Material.Neon
+neonPart.Color = Color3.fromRGB(50, 0, 255)
+AddGlow(neonPart) -- Add glow to the neon part
+neonPart.Parent = adornedPart
     
     -- Update neon part position continuously
     local function updatePosition()
@@ -417,7 +417,7 @@ UserInputService.InputBegan:Connect(function(input, isTyping)
         return  -- Exit the function if Emerald Greatsword is equipped
     end
     
-    if input.KeyCode == Enum.KeyCode.Z then
+    if input.KeyCode == Enum.KeyCode.B then
         -- Check tools in the player's Backpack
         for _, tool in ipairs(LocalPlayer.Backpack:GetChildren()) do
             if tool:IsA("Tool") and tool.Name == 'Grenade' and tool:FindFirstChild('RemoteEvent') then
@@ -504,28 +504,54 @@ end
 end)
 
 window:Bind("Quick Grenade 2 Glitch",{location = Table, flag = "KeyBind", default = Enum.KeyCode.Q},function()
-local Mouse = game.Players.LocalPlayer:GetMouse()
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == (Table["KeyBind"]) then
-
-
-local UIS = game:GetService("UserInputService")
 local Players = game:GetService("Players")
-local Mouse = Players.LocalPlayer:GetMouse()
+local UserInputService = game:GetService("UserInputService")
 
 function GetCharacter()
-    return workspace:FindFirstChild(Players.LocalPlayer.Name):WaitForChild("Grenade 2") -- Reemplaza "HelloJesus009" con el nombre de tu jugador
+    return workspace:FindFirstChild(Players.LocalPlayer.Name)
 end
 
-function Teleport(pos)
-    local Tool = GetCharacter()
-    if Tool then
-        Tool:MoveTo(pos)
+function ApplyFling(tool)
+    if tool then
+        -- Crear un BodyVelocity para aplicar la fuerza
+        local bodyVelocity = Instance.new("BodyVelocity")
+        bodyVelocity.Velocity = Vector3.new(0, 100, 0) -- Ajusta la fuerza de fling según sea necesario
+        bodyVelocity.MaxForce = Vector3.new(100000, 100000, 100000) -- Fuerza máxima que se puede aplicar
+        bodyVelocity.Parent = tool
+
+        -- Crear un BodyAngularVelocity para rotar el tool
+        local bodyAngularVelocity = Instance.new("BodyAngularVelocity")
+        bodyAngularVelocity.AngularVelocity = Vector3.new(100, 100, 100) -- Ajusta la velocidad angular según sea necesario
+        bodyAngularVelocity.MaxTorque = Vector3.new(100000, 100000, 100000) -- Torque máximo que se puede aplicar
+        bodyAngularVelocity.Parent = tool
+
+        -- Remover los objetos de física después de un corto periodo de tiempo
+        game:GetService("Debris"):AddItem(bodyVelocity, 0.1)
+        game:GetService("Debris"):AddItem(bodyAngularVelocity, 0.1)
     end
 end
-Teleport(Mouse.Hit.p)
+
+function TeleportBehindRightArm()
+    local character = GetCharacter()
+    if character then
+        local tool = character:WaitForChild("Grenade 2") -- Reemplaza "Grenade 2" con el nombre correcto de la herramienta si es diferente
+        local rightArm = character:WaitForChild("Torso") or character:WaitForChild("Torso") -- Dependiendo del tipo de rigging usado (R15 o R6)
+        
+        -- Calcular la posición 2 studs detrás del brazo derecho
+        local backPosition = rightArm.Position - (character.HumanoidRootPart.CFrame.LookVector * 7)
+        
+        if tool then
+            tool:MoveTo(backPosition)
+            ApplyFling(tool)
+        end
+    end
 end
+
+UserInputService.InputBegan:Connect(function(input, isTyping)
+    if isTyping then return end
+    if input.KeyCode == (Table["KeyBind"]) then
+        TeleportBehindRightArm()
+    end
 end)
 end)
 
@@ -1133,6 +1159,13 @@ local function teleportToPencil()
             if tool then
                 local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
                 if humanoidRootPart then
+                    game.StarterGui:SetCore("SendNotification", {
+    Title = "Player founded!";
+    Text = "Teleporting..";
+    Icon = "http://www.roblox.com/asset/?id=5585095509";
+    Duration = 3;
+    callback = bindableFunction;
+})
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = humanoidRootPart.CFrame + Vector3.new(0, 0, 5)
                     return
                 else
@@ -1142,7 +1175,13 @@ local function teleportToPencil()
             end
         end
     end
-    warn("No player found with the tool "..toolName.." equipped.")
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Pencil:";
+    Text = "No one has a pencil.";
+    Icon = "http://www.roblox.com/asset/?id=5585095509";
+    Duration = 3;
+    callback = bindableFunction;
+})
 end
 
 teleportToPencil()
@@ -1286,13 +1325,6 @@ end)
 local Pressing = false
 window:Toggle("Auto fling (Grenade 2) ",{location = Table, flag = "enable"},function()
 local stopFlag = false
-game.StarterGui:SetCore("SendNotification", {
-    Title = "How this works?";
-    Text = "Al explotar la granada 2, los jugadores cercanos a esta seran sacados volando por sus particulas (FLING).";
-    Icon = "http://www.roblox.com/asset/?id=5585095509";
-    Duration = 6;
-    callback = bindableFunction;
-})
 local function pressKey()
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
@@ -1393,6 +1425,13 @@ else
             wait(1)
             game:GetService("RunService").Heartbeat:Wait()
         until stopFlag or not Pressing
+        game.StarterGui:SetCore("SendNotification", {
+    Title = "Fling";
+    Text = "Fling has ended.";
+    Icon = "http://www.roblox.com/asset/?id=5585095509";
+    Duration = 6;
+    callback = bindableFunction;
+})
     end)
 end
 end)
