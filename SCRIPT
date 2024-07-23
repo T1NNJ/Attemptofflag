@@ -425,7 +425,7 @@ UserInputService.InputBegan:Connect(function(input, isTyping)
                 tool.Parent = LocalPlayer.Character
                 wait(0.1)
                 tool:Activate()
-                wait(0.1)
+                wait(0.3)
                 tool.Parent = LocalPlayer.Backpack
             end
         end
@@ -1283,8 +1283,8 @@ local root = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid
 local function touch(x)
     x = x:FindFirstAncestorWhichIsA("BasePart")
     if x and firetouchinterest then
-        if x.Name == "Spiked Trap" then
-            -- Ignorar el 'Spiked Trap'
+        if x.Name == "Button" then
+            -- Ignorar el 'Button de la spiked trap'
             return
         end
         
