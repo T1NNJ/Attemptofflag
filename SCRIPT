@@ -313,7 +313,6 @@ else
 end
 end)
 
-
 window:Button("Set Night",function()
 game.Lighting:SetMinutesAfterMidnight(155)
     end)
@@ -472,30 +471,6 @@ UserInputService.InputBegan:Connect(function(input, isTyping)
         end
     end
 end)
-end)
-
-window:Button("Anti Spike",function()
-while true do
-    -- Recorrer todos los objetos en el Workspace
-    for _, object in pairs(game.Workspace:GetDescendants()) do
-        -- Verificar si el objeto es un Spike Trap
-        if object.Name == "Spike Trap" then
-            -- Buscar el Button dentro del Spike Trap
-            local button = object:FindFirstChild("Button")
-            if button then
-                -- Buscar y eliminar el TouchInterest dentro del Button
-                for _, child in pairs(button:GetChildren()) do
-                    if child:IsA("TouchTransmitter") then
-                        child:Destroy()
-                    end
-                end
-            end
-        end
-    end
-
-    -- Esperar 5 segundos antes de volver a ejecutar el bucle
-    wait(5)
-end
 end)
 
 window:Button("Grenade 2 (Modded)",function()
@@ -1211,140 +1186,7 @@ end
 teleportToPencil()
 end)
 
-local Farming = false
-window:Toggle("Farm Grenade 2",{location = Table, flag = "Farming"},function()
-game.StarterGui:SetCore("SendNotification", {
-    Title = "Dupe:";
-    Text = "Hold on..";
-    Icon = "http://www.roblox.com/asset/?id=5585095509";
-    Duration = 3;
-    callback = bindableFunction;
-})
-    if Farming then
-        Farming = false
-    else
-        Farming = true
-        repeat
-local player = game.Players.LocalPlayer
-
-repeat
-    wait()
-until player.Character
-
-local player = game.Players.LocalPlayer
-
-repeat
-    wait(.5)
-until player.Character
-
-local playerGui = player:FindFirstChild("PlayerGui")
-if playerGui then
-    local menuScreen = playerGui:FindFirstChild("Menu Screen")
-    if menuScreen and menuScreen:IsA("ScreenGui") then
-        menuScreen.Enabled = false
-        if menuScreen:FindFirstChild("RemoteEvent") then
-            menuScreen.RemoteEvent:FireServer("Emerald Greatsword")
-        else
-            warn("RemoteEvent not found in Menu Screen.")
-        end
-    else
-        warn("Menu Screen not found or is not a ScreenGui.")
-    end
-else
-    warn("PlayerGui not found.")
-end
-
-local function performActionAfterSpawn()
-    wait()
-    if player.Character then
-        player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(-287, 108, -48)
-        wait(0.3)
-
-        local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
-        if humanoid then
-            humanoid.Health = 0
-            wait()
-local player = game.Players.LocalPlayer
-
-repeat
-    wait(.2)
-until player.Character
-
-local grenade2 = player.Backpack:FindFirstChild("Grenade 2")
-
-if grenade2 then
-    local humanoid = player.Character:FindFirstChild("Humanoid")
-
-    if humanoid then
-        humanoid:EquipTool(grenade2)
-    else
-        warn("Humanoid not found in player's character.")
-    end
-else
-    warn("Grenade 2 tool not found in player's backpack.")
-           end
-            wait(0.3)
-            game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.Backspace, false, game)
-        end
-    else
-        warn("Player or Humanoid not found.")
-    end
-end
-
-if player.Character then
-    performActionAfterSpawn()
-else
-    player.CharacterAdded:Connect(performActionAfterSpawn)
-end
- game:GetService("RunService").Heartbeat:Wait()
-        until stopFlag or not Farming
-    end
-end)
-
-window:Button("Collect All Grenades (W FF)",function()
-local root = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("HumanoidRootPart") or game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("BasePart")
-
-local function touch(x)
-    x = x:FindFirstAncestorWhichIsA("BasePart")
-    if x and firetouchinterest then
-        if x.Name == "Button" then
-            -- Ignorar el 'Button de la spiked trap'
-            return
-        end
-        
-        task.spawn(function()
-            firetouchinterest(x, root, 1)
-            wait()
-            firetouchinterest(x, root, 0)
-        end)
-        x.CFrame = root.CFrame
-    end
-end
-
-for _, descendant in ipairs(workspace:GetDescendants()) do
-    if descendant:IsA("TouchTransmitter") then
-        touch(descendant)
-    end
-end
-end) 
-
-window:Button("Spam Grenade 2",function()
-        for _,v in next,plr.Backpack:GetChildren() do
-            if v.Name == 'Grenade 2' and v:FindFirstChild'RemoteEvent' then
-                v.Parent = plr.Character
-                v.RemoteEvent:FireServer(mouse.Hit.LookVector)
-                v.Parent = plr.Backpack
-            end
-        end
-end)
-
-window:Button("Teleport To Farm Zone",function()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-292, 60, -68)
-end)
-
-window:Button("Teleport Up (Exit)",function()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-286, 97, -2)
-end)
+window:Section(" Grenade Functions")
 
 local Pressing = false
 window:Toggle("Auto fling (Grenade 2) ",{location = Table, flag = "enable"},function()
@@ -1460,8 +1302,142 @@ else
 end
 end)
 
+local Farming = false
+window:Toggle("Farm Grenade 2",{location = Table, flag = "Farming"},function()
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Dupe:";
+    Text = "Hold on..";
+    Icon = "http://www.roblox.com/asset/?id=5585095509";
+    Duration = 3;
+    callback = bindableFunction;
+})
+    if Farming then
+        Farming = false
+    else
+        Farming = true
+        repeat
+local player = game.Players.LocalPlayer
 
-window:Button("Fling Grenade 2 Particles (F)",function()
+repeat
+    wait()
+until player.Character
+
+local player = game.Players.LocalPlayer
+
+repeat
+    wait(.5)
+until player.Character
+
+local playerGui = player:FindFirstChild("PlayerGui")
+if playerGui then
+    local menuScreen = playerGui:FindFirstChild("Menu Screen")
+    if menuScreen and menuScreen:IsA("ScreenGui") then
+        menuScreen.Enabled = false
+        if menuScreen:FindFirstChild("RemoteEvent") then
+            menuScreen.RemoteEvent:FireServer("Emerald Greatsword")
+        else
+            warn("RemoteEvent not found in Menu Screen.")
+        end
+    else
+        warn("Menu Screen not found or is not a ScreenGui.")
+    end
+else
+    warn("PlayerGui not found.")
+end
+
+local function performActionAfterSpawn()
+    wait()
+    if player.Character then
+        player.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(-287, 108, -48)
+        wait(0.3)
+
+        local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.Health = 0
+            wait()
+local player = game.Players.LocalPlayer
+
+repeat
+    wait(.2)
+until player.Character
+
+local grenade2 = player.Backpack:FindFirstChild("Grenade 2")
+
+if grenade2 then
+    local humanoid = player.Character:FindFirstChild("Humanoid")
+
+    if humanoid then
+        humanoid:EquipTool(grenade2)
+    else
+        warn("Humanoid not found in player's character.")
+    end
+else
+    warn("Grenade 2 tool not found in player's backpack.")
+           end
+            wait(0.3)
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.Backspace, false, game)
+        end
+    else
+        warn("Player or Humanoid not found.")
+    end
+end
+
+if player.Character then
+    performActionAfterSpawn()
+else
+    player.CharacterAdded:Connect(performActionAfterSpawn)
+end
+ game:GetService("RunService").Heartbeat:Wait()
+        until stopFlag or not Farming
+    end
+end)
+
+window:Button("Collect All Grenades (Fixed!)",function()
+local root = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("HumanoidRootPart") or game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("BasePart")
+wait(0.1)
+local function touch(x)
+    x = x:FindFirstAncestorWhichIsA("BasePart")
+    if x and firetouchinterest then
+        if x.Name == "Button" then
+            -- Ignorar el 'Button de la spiked trap'
+            return
+        end
+        
+        task.spawn(function()
+            firetouchinterest(x, root, 1)
+            wait()
+            firetouchinterest(x, root, 0)
+        end)
+        x.CFrame = root.CFrame
+    end
+end
+
+for _, descendant in ipairs(workspace:GetDescendants()) do
+    if descendant:IsA("TouchTransmitter") then
+        touch(descendant)
+    end
+end
+end) 
+
+window:Button("Spam Grenade 2",function()
+        for _,v in next,plr.Backpack:GetChildren() do
+            if v.Name == 'Grenade 2' and v:FindFirstChild'RemoteEvent' then
+                v.Parent = plr.Character
+                v.RemoteEvent:FireServer(mouse.Hit.LookVector)
+                v.Parent = plr.Backpack
+            end
+        end
+end)
+
+window:Button("Teleport To Farm Zone",function()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-292, 60, -68)
+end)
+
+window:Button("Teleport Up (Exit)",function()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-286, 97, -2)
+end)
+
+window:Button("Fling Grenade 2 Particles (G)",function()
 local UserInputService = game:GetService("UserInputService")
 local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
 local Folder = Instance.new("Folder", game:GetService("Workspace"))
@@ -1567,3 +1543,39 @@ game.StarterGui:SetCore("SendNotification", {
     Duration = 5; 
     callback = bindableFunction;
 })
+
+wait(1)
+game.StarterGui:SetCore("SendNotification", {
+    Title = "NEW";
+    Text = "Anti Spiked Trap is now enabled!";
+    Icon = "http://www.roblox.com/asset/?id=5585095509"; 
+    Duration = 5; 
+    callback = bindableFunction;
+})
+local Mouse = game.Players.LocalPlayer:GetMouse()
+game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
+if IsTyping then return end
+if Input.KeyCode == Enum.KeyCode.W then
+while true do
+    -- Recorrer todos los objetos en el Workspace
+    for _, object in pairs(game.Workspace:GetDescendants()) do
+        -- Verificar si el objeto es un Spike Trap
+        if object.Name == "Spike Trap" then
+            -- Buscar el Button dentro del Spike Trap
+            local button = object:FindFirstChild("Button")
+            if button then
+                -- Buscar y eliminar el TouchInterest dentro del Button
+                for _, child in pairs(button:GetChildren()) do
+                    if child:IsA("TouchTransmitter") then
+                        child:Destroy()
+                    end
+                end
+            end
+        end
+    end
+
+    -- Esperar 5 segundos antes de volver a ejecutar el bucle
+    wait(5)
+end
+end
+end)
