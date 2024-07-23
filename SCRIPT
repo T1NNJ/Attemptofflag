@@ -424,7 +424,7 @@ UserInputService.InputBegan:Connect(function(input, isTyping)
                 tool.Parent = LocalPlayer.Character
                 wait(0.1)
                 tool:Activate()
-                wait(0.3)
+                wait(0.2)
                 tool.Parent = LocalPlayer.Backpack
             end
         end
