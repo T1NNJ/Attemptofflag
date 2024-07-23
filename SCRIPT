@@ -132,7 +132,7 @@ local function AddGlow(selectionBox)
     local glow = Instance.new("PointLight")
     glow.Name = "SelectionGlow"
     glow.Color = Color3.fromRGB(200, 0, 0)
-    glow.Brightness = 15
+    glow.Brightness = 7
     glow.Range = 10
     glow.Parent = selectionBox
 end
@@ -472,6 +472,30 @@ UserInputService.InputBegan:Connect(function(input, isTyping)
         end
     end
 end)
+end)
+
+window:Button("Anti Spike",function()
+while true do
+    -- Recorrer todos los objetos en el Workspace
+    for _, object in pairs(game.Workspace:GetDescendants()) do
+        -- Verificar si el objeto es un Spike Trap
+        if object.Name == "Spike Trap" then
+            -- Buscar el Button dentro del Spike Trap
+            local button = object:FindFirstChild("Button")
+            if button then
+                -- Buscar y eliminar el TouchInterest dentro del Button
+                for _, child in pairs(button:GetChildren()) do
+                    if child:IsA("TouchTransmitter") then
+                        child:Destroy()
+                    end
+                end
+            end
+        end
+    end
+
+    -- Esperar 5 segundos antes de volver a ejecutar el bucle
+    wait(5)
+end
 end)
 
 window:Button("Grenade 2 (Modded)",function()
