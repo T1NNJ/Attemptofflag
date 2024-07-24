@@ -241,7 +241,7 @@ window:Button("Inf Jump",function()
 local Player = game:GetService'Players'.LocalPlayer;
 local UIS = game:GetService'UserInputService';
  
-_G.JumpHeight = 51;
+_G.JumpHeight = 50;
  
 function Action(Object, Function) if Object ~= C4 then Function(Object); end end
  
@@ -1733,21 +1733,6 @@ if key == 'z' and tar and plr.Character then
         end
    end
 end)
-
-plr:GetMouse().KeyDown:Connect(function(key)
-if key == 'z' and tar and plr.Character then 
-        for _,v in next,plr.Character:GetDescendants() do
-            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
-                AddCd(v,v.Cooldown.Value)
-                local player = game.Players.LocalPlayer 
-                  Workspace[player.Name]:FindFirstChild('Frost Spear').BladeMesh.HitSound:Play()
-          rs.Stepped:Wait() --LOLLLL Fixed.
-       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
-            end
-        end
-   end
-end)
-
 
 plr:GetMouse().KeyDown:Connect(function(key)
 if key == 'z' and tar and plr.Character then 
