@@ -572,225 +572,32 @@ end)
 end)
 
 game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Mace" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local player = game.Players.LocalPlayer 
-local A_1 = game.Workspace[player.Name].Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
+    if IsTyping then return end
+    if Input.KeyCode == Enum.KeyCode.KeypadFive then
+        local player = game.Players.LocalPlayer
+        local character = player.Character
+        local backpack = player.Backpack
+
+        for i, v in pairs(backpack:GetChildren()) do
+            if v:IsA("Tool") and v:FindFirstChild("DamageRemote") and v.Name ~= "Kawaii Revolver" then
+                character.Humanoid:EquipTool(v)
+                break
+            end
+        end
+
+        local equippedTool = character:FindFirstChildOfClass("Tool")
+        if equippedTool and equippedTool:FindFirstChild("DamageRemote") then
+            local target = character:FindFirstChild("Humanoid")
+            if target then
+                repeat
+                    wait()
+                    equippedTool.DamageRemote:FireServer(target)
+                until target.Health <= 0
+            end
+        end
+    end
 end)
 
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Mace" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local player = game.Players.LocalPlayer 
-local A_1 = game.Workspace[player.Name].Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Chainsaw" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local player = game.Players.LocalPlayer 
-local A_1 = game.Workspace[player.Name].Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Knife" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local player = game.Players.LocalPlayer 
-local A_1 = game.Workspace[player.Name].Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Baseball Bat" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local player = game.Players.LocalPlayer 
-local A_1 = game.Workspace[player.Name].Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Pan" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local player = game.Players.LocalPlayer 
-local A_1 = game.Workspace[player.Name].Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Blood Dagger" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local player = game.Players.LocalPlayer 
-local A_1 = game.Workspace[player.Name].Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Emerald Greatsword" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local player = game.Players.LocalPlayer 
-local A_1 = game.Workspace[player.Name].Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Pencil" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local player = game.Players.LocalPlayer 
-local A_1 = game.Workspace[player.Name].Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Scythe" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local player = game.Players.LocalPlayer 
-local A_1 = game.Workspace[player.Name].Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
-
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.KeypadFive then
-wait()
-		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-			if v.Name == "Frost Spear" then
-				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-end
-end
-game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local player = game.Players.LocalPlayer 
-local A_1 = game.Workspace[player.Name].Humanoid
-        local Target = A_1
-           repeat
-               wait()
-local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
-          until Target.Health <= 0
-Event:FireServer(A_1)
-end
-end)
 
 game.StarterGui:SetCore("SendNotification", {
     Title = "Loading..";
@@ -1551,188 +1358,19 @@ end)
 game.Players.LocalPlayer.AutoJumpEnabled = false
 
 plr:GetMouse().KeyDown:Connect(function(key)
-if key == 'z' and tar and plr.Character then 
+    if key == 'z' and tar and plr.Character then 
         for _,v in next,plr.Character:GetDescendants() do
-            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
+            if v:IsA'Tool' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
                 AddCd(v,v.Cooldown.Value)
                 local player = game.Players.LocalPlayer 
-                  Workspace[player.Name]:FindFirstChild('Emerald Greatsword').Blade.HitSound:Play()
-          rs.Stepped:Wait() --LOLLLL Fixed.
-       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
+                Workspace[player.Name]:FindFirstChild(v.Name).Blade.HitSound:Play()
+                rs.Stepped:Wait() --LOLLLL Fixed.
+                v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
             end
         end
-   end
+    end
 end)
 
-plr:GetMouse().KeyDown:Connect(function(key)
-if key == 'z' and tar and plr.Character then 
-        for _,v in next,plr.Character:GetDescendants() do
-            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
-                AddCd(v,v.Cooldown.Value)
-                local player = game.Players.LocalPlayer 
-                  Workspace[player.Name]:FindFirstChild('Blood Dagger').Blade.HitSound:Play()
-          rs.Stepped:Wait() --LOLLLL Fixed.
-       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
-            end
-        end
-   end
-end)
-
-plr:GetMouse().KeyDown:Connect(function(key)
-if key == 'z' and tar and plr.Character then 
-        for _,v in next,plr.Character:GetDescendants() do
-            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
-                AddCd(v,v.Cooldown.Value)
-                local player = game.Players.LocalPlayer 
-                  Workspace[player.Name]:FindFirstChild('Pan').Blade.HitSound:Play()
-          rs.Stepped:Wait() --LOLLLL Fixed.
-       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
-            end
-        end
-   end
-end)
-
-plr:GetMouse().KeyDown:Connect(function(key)
-if key == 'z' and tar and plr.Character then 
-        for _,v in next,plr.Character:GetDescendants() do
-            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
-                AddCd(v,v.Cooldown.Value)
-                local player = game.Players.LocalPlayer 
-                  Workspace[player.Name]:FindFirstChild('Mace').Blade.HitSound:Play()
-          rs.Stepped:Wait() --LOLLLL Fixed.
-       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
-            end
-        end
-   end
-end)
-
-plr:GetMouse().KeyDown:Connect(function(key)
-if key == 'z' and tar and plr.Character then 
-        for _,v in next,plr.Character:GetDescendants() do
-            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
-                AddCd(v,v.Cooldown.Value)
-                local player = game.Players.LocalPlayer 
-                  Workspace[player.Name]:FindFirstChild('Pink Hammer').Blade.HitSound:Play()
-          rs.Stepped:Wait() --LOLLLL Fixed.
-       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
-            end
-        end
-   end
-end)
-
-plr:GetMouse().KeyDown:Connect(function(key)
-if key == 'z' and tar and plr.Character then 
-        for _,v in next,plr.Character:GetDescendants() do
-            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
-                AddCd(v,v.Cooldown.Value)
-                local player = game.Players.LocalPlayer 
-                  Workspace[player.Name]:FindFirstChild('Frost Spear').Blade.HitSound:Play()
-          rs.Stepped:Wait() --LOLLLL Fixed.
-       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
-            end
-        end
-   end
-end)
-
-plr:GetMouse().KeyDown:Connect(function(key)
-if key == 'z' and tar and plr.Character then 
-        for _,v in next,plr.Character:GetDescendants() do
-            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
-                AddCd(v,v.Cooldown.Value)
-                local player = game.Players.LocalPlayer 
-                  Workspace[player.Name]:FindFirstChild('Katana').Blade.HitSound:Play()
-          rs.Stepped:Wait() --LOLLLL Fixed.
-       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
-            end
-        end
-   end
-end)
-
-plr:GetMouse().KeyDown:Connect(function(key)
-if key == 'z' and tar and plr.Character then 
-        for _,v in next,plr.Character:GetDescendants() do
-            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
-                AddCd(v,v.Cooldown.Value)
-                local player = game.Players.LocalPlayer 
-                  Workspace[player.Name]:FindFirstChild('Scythe').Blade.HitSound:Play()
-          rs.Stepped:Wait() --LOLLLL Fixed.
-       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
-            end
-        end
-   end
-end)
-
-plr:GetMouse().KeyDown:Connect(function(key)
-if key == 'z' and tar and plr.Character then 
-        for _,v in next,plr.Character:GetDescendants() do
-            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
-                AddCd(v,v.Cooldown.Value)
-                local player = game.Players.LocalPlayer 
-                  Workspace[player.Name]:FindFirstChild('Steel Sword').Blade.HitSound:Play()
-          rs.Stepped:Wait() --LOLLLL Fixed.
-       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
-            end
-        end
-   end
-end)
-
-
-plr:GetMouse().KeyDown:Connect(function(key)
-if key == 'z' and tar and plr.Character then 
-        for _,v in next,plr.Character:GetDescendants() do
-            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
-                AddCd(v,v.Cooldown.Value)
-                local player = game.Players.LocalPlayer 
-                  Workspace[player.Name]:FindFirstChild('Pencil').Blade.HitSound:Play()
-          rs.Stepped:Wait() --LOLLLL Fixed.
-       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
-            end
-        end
-   end
-end)
-
-
-plr:GetMouse().KeyDown:Connect(function(key)
-if key == 'z' and tar and plr.Character then 
-        for _,v in next,plr.Character:GetDescendants() do
-            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
-                AddCd(v,v.Cooldown.Value)
-                local player = game.Players.LocalPlayer 
-                  Workspace[player.Name]:FindFirstChild('Baseball Bat').Blade.HitSound:Play()
-          rs.Stepped:Wait() --LOLLLL Fixed.
-       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
-            end
-        end
-   end
-end)
-
-plr:GetMouse().KeyDown:Connect(function(key)
-if key == 'z' and tar and plr.Character then 
-        for _,v in next,plr.Character:GetDescendants() do
-            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
-                AddCd(v,v.Cooldown.Value)
-                local player = game.Players.LocalPlayer 
-                  Workspace[player.Name]:FindFirstChild('Chainsaw').Blade.HitSound:Play()
-          rs.Stepped:Wait() --LOLLLL Fixed.
-       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
-            end
-        end
-   end
-end)
-
-plr:GetMouse().KeyDown:Connect(function(key)
-if key == 'z' and tar and plr.Character then 
-        for _,v in next,plr.Character:GetDescendants() do
-            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
-                AddCd(v,v.Cooldown.Value)
-                local player = game.Players.LocalPlayer 
-                  Workspace[player.Name]:FindFirstChild('Knife').Blade.HitSound:Play()
-          rs.Stepped:Wait() --LOLLLL Fixed.
-       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
-            end
-        end
-   end
-end)
 
 game.StarterGui:SetCore("SendNotification", {
     Title = "Loaded!";
