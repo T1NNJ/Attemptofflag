@@ -580,7 +580,8 @@ if Input.KeyCode == Enum.KeyCode.KeypadFive then
 end
 end
 game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
+local player = game.Players.LocalPlayer 
+local A_1 = game.Workspace[player.Name].Humanoid
         local Target = A_1
            repeat
                wait()
@@ -599,7 +600,8 @@ if Input.KeyCode == Enum.KeyCode.KeypadFive then
 end
 end
 game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
+local player = game.Players.LocalPlayer 
+local A_1 = game.Workspace[player.Name].Humanoid
         local Target = A_1
            repeat
                wait()
@@ -618,7 +620,8 @@ if Input.KeyCode == Enum.KeyCode.KeypadFive then
 end
 end
 game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
+local player = game.Players.LocalPlayer 
+local A_1 = game.Workspace[player.Name].Humanoid
         local Target = A_1
            repeat
                wait()
@@ -637,7 +640,8 @@ if Input.KeyCode == Enum.KeyCode.KeypadFive then
 end
 end
 game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
+local player = game.Players.LocalPlayer 
+local A_1 = game.Workspace[player.Name].Humanoid
         local Target = A_1
            repeat
                wait()
@@ -656,7 +660,8 @@ if Input.KeyCode == Enum.KeyCode.KeypadFive then
 end
 end
 game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
+local player = game.Players.LocalPlayer 
+local A_1 = game.Workspace[player.Name].Humanoid
         local Target = A_1
            repeat
                wait()
@@ -675,7 +680,8 @@ if Input.KeyCode == Enum.KeyCode.KeypadFive then
 end
 end
 game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
+local player = game.Players.LocalPlayer 
+local A_1 = game.Workspace[player.Name].Humanoid
         local Target = A_1
            repeat
                wait()
@@ -694,7 +700,8 @@ if Input.KeyCode == Enum.KeyCode.KeypadFive then
 end
 end
 game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
+local player = game.Players.LocalPlayer 
+local A_1 = game.Workspace[player.Name].Humanoid
         local Target = A_1
            repeat
                wait()
@@ -713,7 +720,8 @@ if Input.KeyCode == Enum.KeyCode.KeypadFive then
 end
 end
 game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
+local player = game.Players.LocalPlayer 
+local A_1 = game.Workspace[player.Name].Humanoid
         local Target = A_1
            repeat
                wait()
@@ -732,7 +740,8 @@ if Input.KeyCode == Enum.KeyCode.KeypadFive then
 end
 end
 game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
+local player = game.Players.LocalPlayer 
+local A_1 = game.Workspace[player.Name].Humanoid
         local Target = A_1
            repeat
                wait()
@@ -751,7 +760,8 @@ if Input.KeyCode == Enum.KeyCode.KeypadFive then
 end
 end
 game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
+local player = game.Players.LocalPlayer 
+local A_1 = game.Workspace[player.Name].Humanoid
         local Target = A_1
            repeat
                wait()
@@ -771,7 +781,8 @@ wait()
 end
 end
 game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
-local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
+local player = game.Players.LocalPlayer 
+local A_1 = game.Workspace[player.Name].Humanoid
         local Target = A_1
            repeat
                wait()
@@ -1757,5 +1768,13 @@ game.StarterGui:SetCore("SendNotification", {
     Text = "GUI Loaded sucessfully!";
     Icon = "http://www.roblox.com/asset/?id=5585095509"; 
     Duration = 5; 
+    callback = bindableFunction;
+})
+wait(2)
+game.StarterGui:SetCore("SendNotification", {
+    Title = "(NEW!)";
+    Text = "Force reset with KeypadFive, press if u gonna be voided by some1!";
+    Icon = "http://www.roblox.com/asset/?id=5585095509"; 
+    Duration = 10; 
     callback = bindableFunction;
 })
