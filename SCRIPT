@@ -533,7 +533,7 @@ function TeleportBehindRightArm()
     local character = GetCharacter()
     if character then
         local tool = character:FindFirstChild("Grenade 2") -- Reemplaza "Grenade 2" con el nombre correcto de la herramienta si es diferente
-        local rightArm = character:FindFirstChild("Torso") or character:WaitForChild("Torso") -- Dependiendo del tipo de rigging usado (R15 o R6)
+        local rightArm = character:FindFirstChild("Torso") or character:FindFirstChild("Torso") -- Dependiendo del tipo de rigging usado (R15 o R6)
         
         -- Calcular la posición 2 studs detrás del brazo derecho
         local backPosition = rightArm.Position - (character.HumanoidRootPart.CFrame.LookVector * 7)
