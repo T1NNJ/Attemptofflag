@@ -398,29 +398,50 @@ Services.RunService.Heartbeat:Connect(function()
 end)
 end)
 
-window:Button("Anti Spike",function()
-while true do
+window:Button("Anti Spike Trap",function()
+while true do wait()
+local function removeTouchInterestFromSpikeTrap()
+    print("Checking for Spike Traps...") -- Mensaje de depuración
     -- Recorrer todos los objetos en el Workspace
     for _, object in pairs(game.Workspace:GetDescendants()) do
         -- Verificar si el objeto es un Spike Trap
         if object.Name == "Spike Trap" then
+            print("Found Spike Trap:", object) -- Mensaje de depuración
             -- Buscar el Button dentro del Spike Trap
             local button = object:FindFirstChild("Button")
             if button then
                 -- Buscar y eliminar el TouchInterest dentro del Button
                 for _, child in pairs(button:GetChildren()) do
                     if child:IsA("TouchTransmitter") then
+                        print("Found and destroying TouchTransmitter in:", button) -- Mensaje de depuración
                         child:Destroy()
                     end
                 end
             end
         end
     end
-
-    -- Esperar 5 segundos antes de volver a ejecutar el bucle
-    wait(5)
 end
+
+-- Obtener el jugador local
+local player = game.Players.LocalPlayer
+
+-- Conectar al evento CharacterAdded del jugador
+player.CharacterAdded:Connect(function(character)
+    print("Character added:", character) -- Mensaje de depuración
+    -- Esperar a que el personaje termine de cargar
+    character:WaitForChild("HumanoidRootPart")
+    -- Ejecutar la función para eliminar TouchInterest de Spike Traps
+    removeTouchInterestFromSpikeTrap()
 end)
+
+-- Ejecutar la función una vez al inicio por si el jugador ya está en el juego
+if player.Character then
+    print("Player already has a character:", player.Character) -- Mensaje de depuración
+    removeTouchInterestFromSpikeTrap()
+end
+wait(.1) end
+end)
+
 
 window:Button("Owner Hotkeys",function()
 local Players = game:GetService("Players")
@@ -496,61 +517,12 @@ UserInputService.InputBegan:Connect(function(input, isTyping)
 end)
 end)
 
-window:Button("Grenade 2 (Modded)",function()
-game.StarterGui:SetCore("SendNotification", {
-    Title = "Loaded!";
-    Text = "This function basically is an automatic tp grenade 2 with the mouse, reset to remove!";
-    Icon = "http://www.roblox.com/asset/?id=5585095509"; 
-    Duration = 10; 
-    callback = bindableFunction;
-})
-local UIS = game:GetService("UserInputService")
-local Players = game:GetService("Players")
-local Mouse = Players.LocalPlayer:GetMouse()
-
-function GetCharacter()
-    return workspace:FindFirstChild(Players.LocalPlayer.Name):WaitForChild("Grenade 2") -- Reemplaza "HelloJesus009" con el nombre de tu jugador
-end
-
-function Teleport(pos)
-    local Tool = GetCharacter()
-    if Tool then
-        Tool:MoveTo(pos)
-    end
-end
-
-while true do
-    Teleport(Mouse.Hit.p)
-    wait(0.1)  -- Ajusta el tiempo de espera entre cada teletransporte
-end
-end)
-
-window:Bind("Quick Grenade 2 Glitch",{location = Table, flag = "KeyBind", default = Enum.KeyCode.Q},function()
+window:Bind("Quick GR2 Glitch",{location = Table, flag = "KeyBind", default = Enum.KeyCode.Q},function()
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 
 function GetCharacter()
     return workspace:FindFirstChild(Players.LocalPlayer.Name)
-end
-
-function ApplyFling(tool)
-    if tool then
-        -- Crear un BodyVelocity para aplicar la fuerza
-        local bodyVelocity = Instance.new("BodyVelocity")
-        bodyVelocity.Velocity = Vector3.new(0, 100, 0) -- Ajusta la fuerza de fling según sea necesario
-        bodyVelocity.MaxForce = Vector3.new(100000, 100000, 100000) -- Fuerza máxima que se puede aplicar
-        bodyVelocity.Parent = tool
-
-        -- Crear un BodyAngularVelocity para rotar el tool
-        local bodyAngularVelocity = Instance.new("BodyAngularVelocity")
-        bodyAngularVelocity.AngularVelocity = Vector3.new(100, 100, 100) -- Ajusta la velocidad angular según sea necesario
-        bodyAngularVelocity.MaxTorque = Vector3.new(100000, 100000, 100000) -- Torque máximo que se puede aplicar
-        bodyAngularVelocity.Parent = tool
-
-        -- Remover los objetos de física después de un corto periodo de tiempo
-        game:GetService("Debris"):AddItem(bodyVelocity, 0.1)
-        game:GetService("Debris"):AddItem(bodyAngularVelocity, 0.1)
-    end
 end
 
 function TeleportBehindRightArm()
@@ -564,7 +536,6 @@ function TeleportBehindRightArm()
         
         if tool then
             tool:MoveTo(backPosition)
-            ApplyFling(tool)
         end
     end
 end
@@ -573,25 +544,6 @@ UserInputService.InputBegan:Connect(function(input, isTyping)
     if isTyping then return end
     if input.KeyCode == (Table["KeyBind"]) then
         TeleportBehindRightArm()
-    end
-end)
-end)
-
-window:Bind("Click TP (V)",{location = Table, flag = "KeyBind1", default = Enum.KeyCode.V},function()
-local Imput = game:GetService("UserInputService")
-local Plr = game:service'Players'.LocalPlayer
-local Mouse = Plr:GetMouse()
-
-function To(position)
-    local Chr = Plr.Character
-    if Chr ~= nil then
-        Chr:MoveTo(position)
-    end
-end
-
-Imput.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 and Imput:IsKeyDown(Table["KeyBind1"]) then
-        To(Mouse.Hit.p)
     end
 end)
 end)
