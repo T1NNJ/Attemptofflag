@@ -398,6 +398,29 @@ Services.RunService.Heartbeat:Connect(function()
 end)
 end)
 
+window:Button("Anti Spike",function()
+while true do
+    -- Recorrer todos los objetos en el Workspace
+    for _, object in pairs(game.Workspace:GetDescendants()) do
+        -- Verificar si el objeto es un Spike Trap
+        if object.Name == "Spike Trap" then
+            -- Buscar el Button dentro del Spike Trap
+            local button = object:FindFirstChild("Button")
+            if button then
+                -- Buscar y eliminar el TouchInterest dentro del Button
+                for _, child in pairs(button:GetChildren()) do
+                    if child:IsA("TouchTransmitter") then
+                        child:Destroy()
+                    end
+                end
+            end
+        end
+    end
+
+    -- Esperar 5 segundos antes de volver a ejecutar el bucle
+    wait(5)
+end
+end)
 
 window:Button("Owner Hotkeys",function()
 local Players = game:GetService("Players")
@@ -424,7 +447,7 @@ UserInputService.InputBegan:Connect(function(input, isTyping)
                 tool.Parent = LocalPlayer.Character
                 wait(0.1)
                 tool:Activate()
-                wait(0.2)
+                wait(0.3)
                 tool.Parent = LocalPlayer.Backpack
             end
         end
@@ -1543,39 +1566,3 @@ game.StarterGui:SetCore("SendNotification", {
     Duration = 5; 
     callback = bindableFunction;
 })
-
-wait(1)
-game.StarterGui:SetCore("SendNotification", {
-    Title = "NEW";
-    Text = "Anti Spiked Trap is now enabled!";
-    Icon = "http://www.roblox.com/asset/?id=5585095509"; 
-    Duration = 5; 
-    callback = bindableFunction;
-})
-local Mouse = game.Players.LocalPlayer:GetMouse()
-game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
-if IsTyping then return end
-if Input.KeyCode == Enum.KeyCode.W then
-while true do
-    -- Recorrer todos los objetos en el Workspace
-    for _, object in pairs(game.Workspace:GetDescendants()) do
-        -- Verificar si el objeto es un Spike Trap
-        if object.Name == "Spike Trap" then
-            -- Buscar el Button dentro del Spike Trap
-            local button = object:FindFirstChild("Button")
-            if button then
-                -- Buscar y eliminar el TouchInterest dentro del Button
-                for _, child in pairs(button:GetChildren()) do
-                    if child:IsA("TouchTransmitter") then
-                        child:Destroy()
-                    end
-                end
-            end
-        end
-    end
-
-    -- Esperar 5 segundos antes de volver a ejecutar el bucle
-    wait(5)
-end
-end
-end)
