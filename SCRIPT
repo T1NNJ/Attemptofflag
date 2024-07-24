@@ -110,11 +110,11 @@ end
 local Lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/T1NNJ/Attemptofflag/main/GUI", true))()
 local Table = {}
 
-local window = Lib:CreateWindow("Chaos v7.6.3y")
+local window = Lib:CreateWindow("Chaos v7.6.5y")
 
 window:Section(" Main Functions")
 
-window:Button("Hitlock v9.6.1p",function()
+window:Button("Hitlock v10.",function()
 
 game.StarterGui:SetCore("SendNotification", {
     Title = "Hitlock:";
@@ -144,7 +144,7 @@ neonPart.Name = "SelectedPlayer"
 neonPart.Anchored = true
 neonPart.CanCollide = false
 neonPart.Transparency = 0.85
-neonPart.Size = Vector3.new(0.1, 0.1, 0.1) -- Cambiado el tamaño a 0.1
+neonPart.Size = Vector3.new(0.9, 0.9, 0.9) -- Cambiado el tamaño a 0.1
 neonPart.Position = adornedPart.Position
 neonPart.CFrame = adornedPart.CFrame
 neonPart.Material = Enum.Material.Neon
@@ -210,19 +210,23 @@ plr:GetMouse().KeyDown:Connect(function(key)
                 if v:FindFirstChild'Attack' and plr.Character:FindFirstChildOfClass'Humanoid' then
                     plr.Character:FindFirstChildOfClass'Humanoid':LoadAnimation(v.Attack):Play()
                 end
-                if v:FindFirstChild'Blade' then
-                    for _,x in next,v.Blade:GetChildren() do
-                        if x:IsA'Sound' then
-                            wait(0.1)
-                            x:Play()
-                        end
-                    end
-                end
-                rs.Stepped:Wait()
-                v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')
-            elseif v:IsA'Tool' and v.Name == 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'ReplicateRemote' and v:FindFirstChild'Barrel' and v.Barrel:FindFirstChild'Attachment' and tar and tar.Character and tar.Character:FindFirstChild'Head' then
+if v:FindFirstChild('Blade') then
+    local swingSound = v.Blade:FindFirstChild('SwingSound')
+    local hitSound = v.Blade:FindFirstChild('HitSound')
+    
+    if swingSound and swingSound:IsA('Sound') then
+        swingSound:Play()
+             end
+        wait(0.1)
+            if hitSound and hitSound:IsA('Sound') then
+             hitSound:Play()
+             rs.Stepped:Wait(0.2)
+            end
+             v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass('Humanoid'))
+              end
+                elseif v:IsA'Tool' and v.Name == 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'ReplicateRemote' and v:FindFirstChild'Barrel' and v.Barrel:FindFirstChild'Attachment' and tar and tar.Character and tar.Character:FindFirstChild'Head' then
                 v.Parent = plr.Character
-                AddCd(v,1.1)
+                AddCd(v,1.0)
                 rs.Stepped:Wait()
                 plr.Character:FindFirstChildOfClass'Humanoid':LoadAnimation(v.Fire):Play()
                 Shoot(v.Barrel.Attachment.WorldPosition, tar.Character:WaitForChild("Torso").Position, v)
@@ -237,7 +241,7 @@ window:Button("Inf Jump",function()
 local Player = game:GetService'Players'.LocalPlayer;
 local UIS = game:GetService'UserInputService';
  
-_G.JumpHeight = 50;
+_G.JumpHeight = 51;
  
 function Action(Object, Function) if Object ~= C4 then Function(Object); end end
  
@@ -528,8 +532,8 @@ end
 function TeleportBehindRightArm()
     local character = GetCharacter()
     if character then
-        local tool = character:WaitForChild("Grenade 2") -- Reemplaza "Grenade 2" con el nombre correcto de la herramienta si es diferente
-        local rightArm = character:WaitForChild("Torso") or character:WaitForChild("Torso") -- Dependiendo del tipo de rigging usado (R15 o R6)
+        local tool = character:FindFirstChild("Grenade 2") -- Reemplaza "Grenade 2" con el nombre correcto de la herramienta si es diferente
+        local rightArm = character:FindFirstChild("Torso") or character:WaitForChild("Torso") -- Dependiendo del tipo de rigging usado (R15 o R6)
         
         -- Calcular la posición 2 studs detrás del brazo derecho
         local backPosition = rightArm.Position - (character.HumanoidRootPart.CFrame.LookVector * 7)
@@ -1503,7 +1507,206 @@ if key == 'z' and tar and plr.Character then
             if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
                 AddCd(v,v.Cooldown.Value)
                 local player = game.Players.LocalPlayer 
-                  Workspace[player.Name]:WaitForChild('Emerald Greatsword').Blade.HitSound:Play()
+                  Workspace[player.Name]:FindFirstChild('Emerald Greatsword').Blade.HitSound:Play()
+          rs.Stepped:Wait() --LOLLLL Fixed.
+       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
+            end
+        end
+   end
+end)
+
+plr:GetMouse().KeyDown:Connect(function(key)
+if key == 'z' and tar and plr.Character then 
+        for _,v in next,plr.Character:GetDescendants() do
+            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
+                AddCd(v,v.Cooldown.Value)
+                local player = game.Players.LocalPlayer 
+                  Workspace[player.Name]:FindFirstChild('Blood Dagger').Blade.HitSound:Play()
+          rs.Stepped:Wait() --LOLLLL Fixed.
+       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
+            end
+        end
+   end
+end)
+
+plr:GetMouse().KeyDown:Connect(function(key)
+if key == 'z' and tar and plr.Character then 
+        for _,v in next,plr.Character:GetDescendants() do
+            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
+                AddCd(v,v.Cooldown.Value)
+                local player = game.Players.LocalPlayer 
+                  Workspace[player.Name]:FindFirstChild('Pan').Blade.HitSound:Play()
+          rs.Stepped:Wait() --LOLLLL Fixed.
+       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
+            end
+        end
+   end
+end)
+
+plr:GetMouse().KeyDown:Connect(function(key)
+if key == 'z' and tar and plr.Character then 
+        for _,v in next,plr.Character:GetDescendants() do
+            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
+                AddCd(v,v.Cooldown.Value)
+                local player = game.Players.LocalPlayer 
+                  Workspace[player.Name]:FindFirstChild('Mace').Blade.HitSound:Play()
+          rs.Stepped:Wait() --LOLLLL Fixed.
+       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
+            end
+        end
+   end
+end)
+
+plr:GetMouse().KeyDown:Connect(function(key)
+if key == 'z' and tar and plr.Character then 
+        for _,v in next,plr.Character:GetDescendants() do
+            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
+                AddCd(v,v.Cooldown.Value)
+                local player = game.Players.LocalPlayer 
+                  Workspace[player.Name]:FindFirstChild('Pink Hammer').Blade.HitSound:Play()
+          rs.Stepped:Wait() --LOLLLL Fixed.
+       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
+            end
+        end
+   end
+end)
+
+plr:GetMouse().KeyDown:Connect(function(key)
+if key == 'z' and tar and plr.Character then 
+        for _,v in next,plr.Character:GetDescendants() do
+            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
+                AddCd(v,v.Cooldown.Value)
+                local player = game.Players.LocalPlayer 
+                  Workspace[player.Name]:FindFirstChild('Blood Dagger').Blade.HitSound:Play()
+          rs.Stepped:Wait() --LOLLLL Fixed.
+       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
+            end
+        end
+   end
+end)
+
+plr:GetMouse().KeyDown:Connect(function(key)
+if key == 'z' and tar and plr.Character then 
+        for _,v in next,plr.Character:GetDescendants() do
+            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
+                AddCd(v,v.Cooldown.Value)
+                local player = game.Players.LocalPlayer 
+                  Workspace[player.Name]:FindFirstChild('Frost Spear').Blade.HitSound:Play()
+          rs.Stepped:Wait() --LOLLLL Fixed.
+       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
+            end
+        end
+   end
+end)
+
+plr:GetMouse().KeyDown:Connect(function(key)
+if key == 'z' and tar and plr.Character then 
+        for _,v in next,plr.Character:GetDescendants() do
+            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
+                AddCd(v,v.Cooldown.Value)
+                local player = game.Players.LocalPlayer 
+                  Workspace[player.Name]:FindFirstChild('Katana').Blade.HitSound:Play()
+          rs.Stepped:Wait() --LOLLLL Fixed.
+       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
+            end
+        end
+   end
+end)
+
+plr:GetMouse().KeyDown:Connect(function(key)
+if key == 'z' and tar and plr.Character then 
+        for _,v in next,plr.Character:GetDescendants() do
+            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
+                AddCd(v,v.Cooldown.Value)
+                local player = game.Players.LocalPlayer 
+                  Workspace[player.Name]:FindFirstChild('Scythe').Blade.HitSound:Play()
+          rs.Stepped:Wait() --LOLLLL Fixed.
+       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
+            end
+        end
+   end
+end)
+
+plr:GetMouse().KeyDown:Connect(function(key)
+if key == 'z' and tar and plr.Character then 
+        for _,v in next,plr.Character:GetDescendants() do
+            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
+                AddCd(v,v.Cooldown.Value)
+                local player = game.Players.LocalPlayer 
+                  Workspace[player.Name]:FindFirstChild('Steel Sword').Blade.HitSound:Play()
+          rs.Stepped:Wait() --LOLLLL Fixed.
+       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
+            end
+        end
+   end
+end)
+
+
+plr:GetMouse().KeyDown:Connect(function(key)
+if key == 'z' and tar and plr.Character then 
+        for _,v in next,plr.Character:GetDescendants() do
+            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
+                AddCd(v,v.Cooldown.Value)
+                local player = game.Players.LocalPlayer 
+                  Workspace[player.Name]:FindFirstChild('Pencil').Blade.HitSound:Play()
+          rs.Stepped:Wait() --LOLLLL Fixed.
+       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
+            end
+        end
+   end
+end)
+
+
+plr:GetMouse().KeyDown:Connect(function(key)
+if key == 'z' and tar and plr.Character then 
+        for _,v in next,plr.Character:GetDescendants() do
+            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
+                AddCd(v,v.Cooldown.Value)
+                local player = game.Players.LocalPlayer 
+                  Workspace[player.Name]:FindFirstChild('Baseball Bat').Blade.HitSound:Play()
+          rs.Stepped:Wait() --LOLLLL Fixed.
+       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
+            end
+        end
+   end
+end)
+
+plr:GetMouse().KeyDown:Connect(function(key)
+if key == 'z' and tar and plr.Character then 
+        for _,v in next,plr.Character:GetDescendants() do
+            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
+                AddCd(v,v.Cooldown.Value)
+                local player = game.Players.LocalPlayer 
+                  Workspace[player.Name]:FindFirstChild('Chainsaw').Blade.HitSound:Play()
+          rs.Stepped:Wait() --LOLLLL Fixed.
+       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
+            end
+        end
+   end
+end)
+
+plr:GetMouse().KeyDown:Connect(function(key)
+if key == 'z' and tar and plr.Character then 
+        for _,v in next,plr.Character:GetDescendants() do
+            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
+                AddCd(v,v.Cooldown.Value)
+                local player = game.Players.LocalPlayer 
+                  Workspace[player.Name]:FindFirstChild('Frost Spear').BladeMesh.HitSound:Play()
+          rs.Stepped:Wait() --LOLLLL Fixed.
+       v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
+            end
+        end
+   end
+end)
+
+
+plr:GetMouse().KeyDown:Connect(function(key)
+if key == 'z' and tar and plr.Character then 
+        for _,v in next,plr.Character:GetDescendants() do
+            if v:IsA'Tool' and v.Name ~= 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'DamageRemote' and v:FindFirstChild'Cooldown' and tar and tar.Character and tar.Character:FindFirstChildOfClass'Humanoid' then
+                AddCd(v,v.Cooldown.Value)
+                local player = game.Players.LocalPlayer 
+                  Workspace[player.Name]:FindFirstChild('Knife').Blade.HitSound:Play()
           rs.Stepped:Wait() --LOLLLL Fixed.
        v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass'Humanoid')          
             end
