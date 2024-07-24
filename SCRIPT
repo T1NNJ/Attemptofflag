@@ -552,6 +552,44 @@ UserInputService.InputBegan:Connect(function(input, isTyping)
 end)
 end)
 
+window:Bind("Click TP ",{location = Table, flag = "KeyBind1", default = Enum.KeyCode.V},function()
+local Imput = game:GetService("UserInputService")
+local Plr = game:service'Players'.LocalPlayer
+local Mouse = Plr:GetMouse()
+
+function To(position)
+    local Chr = Plr.Character
+    if Chr ~= nil then
+        Chr:MoveTo(position)
+    end
+end
+
+Imput.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 and Imput:IsKeyDown(Table["KeyBind1"]) then
+        To(Mouse.Hit.p)
+    end
+end)
+end)
+
+game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
+if IsTyping then return end
+if Input.KeyCode == Enum.KeyCode.KeypadFive then
+		for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+			if v.Name == "Mace" then
+				game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+end
+end
+game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(Target)
+local A_1 = game:GetService("Workspace"):WaitForChild("HelloJesus009").Humanoid
+        local Target = A_1
+           repeat
+               wait()
+local Event = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").DamageRemote:FireServer(A_1)
+          until Target.Health <= 0
+Event:FireServer(A_1)
+end
+end)
+
 game:GetService("UserInputService").InputBegan:Connect(function(Input, IsTyping)
 if IsTyping then return end
 if Input.KeyCode == Enum.KeyCode.KeypadFive then
