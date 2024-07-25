@@ -994,7 +994,7 @@ local function teleportToPencil()
                 local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
                 if humanoidRootPart then
                     game.StarterGui:SetCore("SendNotification", {
-    Title = "Player founded!";
+    Title = "Pencil Founded, LETS END THIS >:).";
     Text = "Teleporting..";
     Icon = "http://www.roblox.com/asset/?id=5585095509";
     Duration = 3;
@@ -1019,6 +1019,115 @@ game.StarterGui:SetCore("SendNotification", {
 end
 
 teleportToPencil()
+end)
+
+window:Button("Fling Pencil (NEW+OP)",function()
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local toolName = "Pencil"
+
+local function getTool(toolName)
+    for _, player in pairs(Players:GetPlayers()) do
+        local character = player.Character
+        if character then
+            local tool = character:FindFirstChild(toolName) or character:WaitForChild(toolName, 5)
+            if tool then
+                return tool
+            end
+        end
+    end
+    return nil
+end
+
+local function teleportToTool(tool)
+    if tool then
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Tool Found!";
+            Text = "Teleporting to Pencil.";
+            Icon = "http://www.roblox.com/asset/?id=5585095509";
+            Duration = 3;
+        })
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = tool.Handle.CFrame + Vector3.new(0, 0, 5)
+    else
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Pencil:";
+            Text = "No one has a pencil.";
+            Icon = "http://www.roblox.com/asset/?id=5585095509";
+            Duration = 3;
+        })
+    end
+end
+
+wait()
+local tool = getTool(toolName)
+teleportToTool(tool)
+
+if tool then
+    local headSit = nil
+    local speaker = Players.LocalPlayer
+    local function getRoot(character)
+        return character:FindFirstChild("HumanoidRootPart") or character.PrimaryPart or character:FindFirstChild("Torso")
+    end
+
+    if headSit then
+        headSit:Disconnect()
+    end
+
+    speaker.Character:FindFirstChildOfClass('Humanoid').Sit = true
+
+    headSit = RunService.Heartbeat:Connect(function()
+        if getRoot(speaker.Character) and speaker.Character:FindFirstChildOfClass('Humanoid').Sit == true then
+            getRoot(speaker.Character).CFrame = tool.Handle.CFrame * CFrame.Angles(0, math.rad(0), 0) * CFrame.new(0, 1.6, 0.4)
+        else
+            if headSit then
+                headSit:Disconnect()
+            end
+        end
+    end)
+
+    wait()
+
+    local Char = game.Players.LocalPlayer.Character
+    local Hum = Char:FindFirstChildOfClass("Humanoid") or Char:FindFirstChildOfClass("AnimationController")
+
+    for _, v in next, Hum:GetPlayingAnimationTracks() do
+        v:Stop()
+    end
+
+    wait() -- Aquí comienza el fling
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Fling";
+            Text = "Applying fling..";
+            Icon = "http://www.roblox.com/asset/?id=5585095509";
+            Duration = 3;
+        })
+    local power = 50 -- change this to make it more or less powerful
+
+    RunService.Stepped:connect(function()
+        Char.Torso.CanCollide = false
+        Char["Left Leg"].CanCollide = false
+        Char["Right Leg"].CanCollide = false
+    end)
+
+    wait()
+    local bambam = Instance.new("BodyThrust")
+    bambam.Parent = Char.HumanoidRootPart
+    bambam.Force = Vector3.new(0, -power, 0) -- Fuerza hacia abajo
+    bambam.Location = Char.HumanoidRootPart.Position
+
+    Char.Humanoid.WalkSpeed = 15
+
+    -- STOPANIMS AQUI WOWW
+    for _, v in next, Hum:GetPlayingAnimationTracks() do
+        v:Stop()
+    end
+end
+game.StarterGui:SetCore("SendNotification", {
+            Title = "DONE!";
+            Text = "If not voided re try.";
+            Icon = "http://www.roblox.com/asset/?id=5585095509";
+            Duration = 3;
+        })
 end)
 
 window:Section(" Grenade Functions")
