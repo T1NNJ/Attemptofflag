@@ -1707,17 +1707,9 @@ end)
 
 
 game.StarterGui:SetCore("SendNotification", {
-    Title = "Loaded!";
+    Title = "Data Fetched.";
     Text = "GUI Loaded sucessfully!";
     Icon = "http://www.roblox.com/asset/?id=5585095509"; 
     Duration = 5; 
-    callback = bindableFunction;
-})
-wait(2)
-game.StarterGui:SetCore("SendNotification", {
-    Title = "(NEW!)";
-    Text = "Force reset with KeypadFive, press if u gonna be voided by some1!";
-    Icon = "http://www.roblox.com/asset/?id=5585095509"; 
-    Duration = 10; 
     callback = bindableFunction;
 })
