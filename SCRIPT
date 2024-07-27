@@ -1,12 +1,4 @@
 --[[
-$$$
-   SXCELERY 
-
- BLOX SYNTAX HIGHLIGHT.
-
-]]--
-
---[[
 
 LOL AGAIN YOU?
 
@@ -97,7 +89,7 @@ SendMessageEMBED(url, embed)
 
 local UserInputService = game:GetService("UserInputService")
 local Heartbeat = game:GetService("RunService").Heartbeat
-local walkSpeed = 15
+local walkSpeed = 15.1
 local plrs = game:GetService'Players'
 local Heartbeat = game:GetService("RunService").Heartbeat
 local plr = plrs.LocalPlayer
@@ -129,7 +121,7 @@ spawn(function()
             if not uis:IsKeyDown(Enum.KeyCode.LeftShift) then
                 plr.Character.Humanoid.WalkSpeed = walkSpeed
             elseif uis:IsKeyDown(Enum.KeyCode.LeftShift) then
-                plr.Character.Humanoid.WalkSpeed = walkSpeed+7
+                plr.Character.Humanoid.WalkSpeed = walkSpeed+10
             end
         end)
     end
@@ -141,26 +133,28 @@ spawn(function()
             if not uis:IsKeyDown(Enum.KeyCode.E) then
                 plr.Character.Humanoid.WalkSpeed = walkSpeed
             elseif uis:IsKeyDown(Enum.KeyCode.E) then
-                plr.Character.Humanoid.WalkSpeed = walkSpeed+9
+                plr.Character.Humanoid.WalkSpeed = walkSpeed+10
             end
         end)
     end
 end)
 
-local function AddCd(tool,Cd)
-    local cd = Instance.new('IntValue',tool)
+local function AddCd(tool, Cd)
+    local cd = Instance.new('IntValue', tool)
     cd.Name = 'ClientCD'
-    game.Debris:AddItem(cd,Cd)
+    game.Debris:AddItem(cd, Cd)
 end
-local function Shoot(firstPos,nextPos,Revolver)
-    if Revolver:FindFirstChild'Barrel' and Revolver.Barrel:FindFirstChild'Attachment' then
-        if Revolver.Barrel.Attachment:FindFirstChild'Sound' then
+
+local function Shoot(firstPos, nextPos, Revolver)
+    if Revolver:FindFirstChild('Barrel') and Revolver.Barrel:FindFirstChild('Attachment') then
+        if Revolver.Barrel.Attachment:FindFirstChild('Sound') then
             local SoundClone = Revolver.Barrel.Attachment.Sound:Clone()
             SoundClone.Name = 'Uncopy'
             SoundClone.Parent = Revolver.Barrel.Attachment
             SoundClone:Play()
             game.Debris:AddItem(SoundClone, 1)
         end
+
         local FilterTable = {}
         table.insert(FilterTable, plr.Character)
         table.insert(FilterTable, game.Workspace['Target Filter'])
@@ -169,36 +163,54 @@ local function Shoot(firstPos,nextPos,Revolver)
                 table.insert(FilterTable, v)
             end
         end
-        local a_1, a_2, a_3 = game.Workspace:FindPartOnRayWithIgnoreList(Ray.new(firstPos, (nextPos - firstPos).Unit * 100), FilterTable)
+
+        local direction = (nextPos - firstPos).Unit * 100
+        local ray = Ray.new(firstPos, direction)
+        local hitPart, hitPosition = game.Workspace:FindPartOnRayWithIgnoreList(ray, FilterTable)
+
         local BulletCl = rep['Revolver Bullet']:Clone()
         game.Debris:AddItem(BulletCl, 1)
         BulletCl.Parent = game.Workspace['Target Filter']
-        local mg = (firstPos - a_2).Magnitude
-        BulletCl.Size = Vector3.new(0.2, 0.2, mg)
-        BulletCl.CFrame = CFrame.new(firstPos, nextPos) * CFrame.new(0, 0, -mg / 2)
-        ts:Create(BulletCl, TweenInfo.new(0.4, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {
-            Size = Vector3.new(0.06, 0.06, mg), 
-            Transparency = 1
-        }):Play()
-        if a_1 then
-            local expPart = Instance.new'Part'
+
+        if hitPart then
+            local distance = (firstPos - hitPosition).Magnitude
+            BulletCl.Size = Vector3.new(0.2, 0.2, distance)
+            BulletCl.CFrame = CFrame.new(firstPos, hitPosition) * CFrame.new(0, 0, -distance / 2)
+
+            ts:Create(BulletCl, TweenInfo.new(0.4, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {
+                Size = Vector3.new(0.06, 0.06, distance), 
+                Transparency = 1
+            }):Play()
+
+            local expPart = Instance.new('Part')
             game.Debris:AddItem(expPart, 2)
             expPart.Name = 'Exploding Neon Part'
             expPart.Anchored = true
-            expPart.CanCollide = true
+            expPart.CanCollide = false
             expPart.Shape = 'Ball'
             expPart.Material = Enum.Material.Neon
             expPart.BrickColor = BulletCl.BrickColor
             expPart.Size = Vector3.new(0.1, 0.1, 0.1)
             expPart.Parent = game.Workspace['Target Filter']
-            expPart.Position = a_2
+            expPart.Position = hitPosition
+
             ts:Create(expPart, TweenInfo.new(0.3, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {
                 Size = Vector3.new(2, 2, 2), 
                 Transparency = 1
             }):Play()
-            if Revolver:FindFirstChild'DamageRemote' and a_1.Parent:FindFirstChild'Humanoid' then
-                Revolver.DamageRemote:FireServer(a_1.Parent.Humanoid)
+
+            if Revolver:FindFirstChild('DamageRemote') and hitPart.Parent:FindFirstChild('Humanoid') then
+                Revolver.DamageRemote:FireServer(hitPart.Parent.Humanoid)
             end
+        else
+            local distance = (firstPos - (firstPos + direction)).Magnitude
+            BulletCl.Size = Vector3.new(0.2, 0.2, distance)
+            BulletCl.CFrame = CFrame.new(firstPos, firstPos + direction) * CFrame.new(0, 0, -distance / 2)
+
+            ts:Create(BulletCl, TweenInfo.new(0.4, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {
+                Size = Vector3.new(0.06, 0.06, distance), 
+                Transparency = 1
+            }):Play()
         end
     end
 end
@@ -298,39 +310,53 @@ wait()
 
 game.StarterGui:SetCore("SendNotification", {
     Title = "Hitlock:";
-    Text = "This Include Fake Delay With Keybind Z!";
+    Text = "Hitlock is now fixed, enjoy!";
     Icon = "http://www.roblox.com/asset/?id=5585095509";
-    Duration = 8;
+    Duration = 4;
     callback = bindableFunction;
 })
 
 local plr = game.Players.LocalPlayer
 local rs = game:GetService("RunService")
+local mouse = plr:GetMouse()
 
 -- Function to add glow to SelectionBox
 local function AddGlow(selectionBox)
     local glow = Instance.new("PointLight")
     glow.Name = "SelectionGlow"
-    glow.Color = Color3.fromRGB(50, 0, 255)
+    glow.Color = Color3.fromRGB(70, 0, 235)
     glow.Brightness = 6
-    glow.Range = 8
+    glow.Range = 7
     glow.Parent = selectionBox
 end
 
 -- Function to create a neon part and update its position
 local function CreateNeonPart(adornedPart, player)
-local neonPart = Instance.new("Part")
-neonPart.Name = "SelectedPlayer"
-neonPart.Anchored = true
-neonPart.CanCollide = false
-neonPart.Transparency = 0.85
-neonPart.Size = Vector3.new(0.5, 0.5, 0.5) -- Cambiado el tamaño a 0.1
-neonPart.Position = adornedPart.Position
-neonPart.CFrame = adornedPart.CFrame
-neonPart.Material = Enum.Material.Neon
-neonPart.Color = Color3.fromRGB(50, 0, 255)
-AddGlow(neonPart) -- Add glow to the neon part
-neonPart.Parent = adornedPart
+    local billboardGui = Instance.new("BillboardGui")
+    billboardGui.Name = "SelectedPlayerGui"
+    billboardGui.AlwaysOnTop = true
+    billboardGui.Size = UDim2.new(0.5, 0, 0.5, 0)  -- Ajusta el tamaño según sea necesario
+    billboardGui.Adornee = adornedPart
+    billboardGui.Parent = adornedPart
+
+    local frame = Instance.new("Frame")
+    frame.BackgroundTransparency = 0.15
+    frame.Size = UDim2.new(0.5, 0, 0.5, 0)
+    frame.BackgroundColor3 = Color3.fromRGB(70, 0, 235)
+    frame.Parent = billboardGui
+
+    local neonPart = Instance.new("Part")
+    neonPart.Name = "SelectedPlayer"
+    neonPart.Anchored = true
+    neonPart.CanCollide = false
+    neonPart.Transparency = 0.85
+    neonPart.Size = Vector3.new(0.5, 0.5, 0.5)
+    neonPart.Position = adornedPart.Position
+    neonPart.CFrame = adornedPart.CFrame
+    neonPart.Material = Enum.Material.Neon
+    neonPart.Color = Color3.fromRGB(70, 0, 235)
+    AddGlow(neonPart)  -- Añadir brillo a la parte de neón
+    neonPart.Parent = adornedPart
     
     -- Update neon part position continuously
     local function updatePosition()
@@ -360,15 +386,24 @@ local function GetLocalPlayerName()
     return plr.Name
 end
 
+-- Function to handle player selection
+local function SelectPlayer(player)
+    for _, v in next, workspace:GetDescendants() do
+        if v.Name == "SelectedPlayer" then
+            v:Destroy()
+        end
+    end
+
+    if player then
+        CreateNeonPart(player.Character.Head, player)
+        tar = player
+    end
+end
+
 -- Main key down event handler
-plr:GetMouse().KeyDown:Connect(function(key)
+mouse.KeyDown:Connect(function(key)
     if key == 'r' then
         tar = nil
-        for _,v in next,workspace:GetDescendants() do
-            if v.Name == 'SelectedPlayer' then
-                v:Destroy()
-            end
-        end
         local n_plr, dist
         for _, v in pairs(game.Players:GetPlayers()) do
             if v ~= plr and plr.Character and plr.Character:FindFirstChild'HumanoidRootPart' then
@@ -380,8 +415,7 @@ plr:GetMouse().KeyDown:Connect(function(key)
             end
         end
         if n_plr then
-            CreateNeonPart(n_plr.Character.Head, n_plr)
-            tar = n_plr
+            SelectPlayer(n_plr)
         end
     elseif key == 'q' and tar and plr.Character then
         for _,v in next,plr.Character:GetDescendants() do
@@ -390,31 +424,42 @@ plr:GetMouse().KeyDown:Connect(function(key)
                 if v:FindFirstChild'Attack' and plr.Character:FindFirstChildOfClass'Humanoid' then
                     plr.Character:FindFirstChildOfClass'Humanoid':LoadAnimation(v.Attack):Play()
                 end
-if v:FindFirstChild('Blade') then
-    local swingSound = v.Blade:FindFirstChild('SwingSound')
-    local hitSound = v.Blade:FindFirstChild('HitSound')
-    
-    if swingSound and swingSound:IsA('Sound') then
-        swingSound:Play()
-             end
-        wait(0.2)
-            if hitSound and hitSound:IsA('Sound') then
-             hitSound:Play()
-             rs.Stepped:Wait(0.1)
-            end
-             v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass('Humanoid'))
-              end
-                elseif v:IsA'Tool' and v.Name == 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'ReplicateRemote' and v:FindFirstChild'Barrel' and v.Barrel:FindFirstChild'Attachment' and tar and tar.Character and tar.Character:FindFirstChild'Head' then
+                if v:FindFirstChild('Blade') then
+                    local swingSound = v.Blade:FindFirstChild('SwingSound')
+                    local hitSound = v.Blade:FindFirstChild('HitSound')
+                    
+                    if swingSound and swingSound:IsA('Sound') then
+                        swingSound:Play()
+                    end
+                    wait(0.2)
+                    if hitSound and hitSound:IsA('Sound') then
+                        hitSound:Play()
+                        rs.Stepped:Wait(0.2)
+                    end
+                    v.DamageRemote:FireServer(tar.Character:FindFirstChildOfClass('Humanoid'))
+                end
+            elseif v:IsA'Tool' and v.Name == 'Kawaii Revolver' and not v:FindFirstChild'ClientCD' and v:FindFirstChild'ReplicateRemote' and v:FindFirstChild'Barrel' and v.Barrel:FindFirstChild'Attachment' and tar and tar.Character and tar.Character:FindFirstChild'Head' then
                 v.Parent = plr.Character
                 AddCd(v,1.0)
                 rs.Stepped:Wait()
                 plr.Character:FindFirstChildOfClass'Humanoid':LoadAnimation(v.Fire):Play()
                 Shoot(v.Barrel.Attachment.WorldPosition, tar.Character:WaitForChild("Torso").Position, v)
                 v.ReplicateRemote:FireServer(tar.Character:WaitForChild("Torso").Position)            
-           end
+            end
         end
+    end
+end)
+
+-- Mouse click event handler to select player
+mouse.Button1Down:Connect(function()
+    local target = mouse.Target
+    if target and target.Parent then
+        local player = game.Players:GetPlayerFromCharacter(target.Parent)
+        if player and player ~= plr then
+            SelectPlayer(player)
         end
-    end)
+    end
+end)
 end)
 
 window:Button("Inf Jump",function()
